@@ -2,5 +2,5 @@ User-agent: *
 Allow: /
 Disallow: /builder.html
 
-Host: https://leskub.online
-Sitemap: https://leskub.online/sitemap.xml
+Host: https://leskub.ru
+Sitemap: https://leskub.ru/sitemap.xml
