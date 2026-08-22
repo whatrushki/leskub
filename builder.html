@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Конструктор каталога | Лес Куб</title>
+    <link rel="icon" type="image/png" href="./assets/logo.png" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="admin-body">
+    <header class="site-header" aria-label="Навигация конструктора">
+      <a class="brand brand-with-logo compact-brand" href="./index.html">
+        <img class="site-logo" src="./assets/logo.png" alt="Лес Куб" style="aspect-ratio: 1; height: 34px; border-radius: 6px;" />
+        <span>Конструктор Лес Куб</span>
+      </a>
+      <div class="admin-topbar-actions">
+        <a class="button button-secondary" href="./index.html">Перейти на сайт</a>
+        <button class="button button-primary" type="button" id="downloadJsonBtn">Скачать data.json</button>
+      </div>
+    </header>
+
+    <main class="admin-shell">
+      <div class="admin-panel" style="height: auto; min-height: 85vh;">
+        <div class="admin-tabs">
+          <button class="admin-tab is-active" data-tab="products">Каталог товаров</button>
+          <button class="admin-tab" data-tab="company">Реквизиты и контакты</button>
+          <button class="admin-tab" data-tab="json">Прямой JSON редактор</button>
+        </div>
+
+        <!-- Вкладка: Каталог товаров -->
+        <section class="admin-view" id="view-products">
+          <div class="admin-toolbar">
+            <label style="flex: 1;">
+              Поиск позиции
+              <input type="search" id="productSearch" placeholder="Размер, тип, сорт..." />
+            </label>
+            <button class="button button-secondary" type="button" id="addNewProductBtn">+ Добавить товар</button>
+          </div>
+
+          <div class="admin-workspace">
+            <div class="admin-table-wrap" style="max-height: 600px;">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Товар</th>
+                    <th>Параметры</th>
+                    <th>Цена</th>
+                    <th>Статус</th>
+                  </tr>
+                </thead>
+                <tbody id="productsTableBody"></tbody>
+              </table>
+            </div>
+
+            <form class="product-editor" id="productForm">
+              <div>
+                <p class="eyebrow">Редактор позиции</p>
+                <h2 id="editorTitle">Выберите товар</h2>
+              </div>
+              <div class="admin-form-grid">
+                <label>Тип товара<input name="type" required /></label>
+                <label>Размер<input name="size" required /></label>
+                <label>Сорт<input name="grade" /></label>
+                <label>Распил<input name="saw" /></label>
+                <label>Штук в 1 м3<input name="piecesPerM3" type="number" step="0.001" /></label>
+                <label>Цена за м3 (руб)<input name="pricePerM3" type="number" step="0.01" /></label>
+                <label>Цена за шт / ед (руб)<input name="pricePerPiece" type="number" step="0.01" /></label>
+                <label>Единица<input name="unitLabel" placeholder="шт, лист, рулон" /></label>
+                <label>Категория цены<input name="priceCategory" /></label>
+                <label>Порядок сортировки<input name="sortOrder" type="number" step="1" /></label>
+                <label class="toggle-row span-2">
+                  <span>Показывать позицию на сайте</span>
+                  <input name="isActive" type="checkbox" checked />
+                </label>
+                <label class="span-2">
+                  Путь к изображению
+                  <input name="image" placeholder="./assets/hero-lumber.jpg" />
+                </label>
+              </div>
+              <div class="admin-actions">
+                <button class="button button-primary" type="submit">Применить изменения</button>
+                <button class="button button-danger" type="button" id="deleteProductBtn">Удалить позицию</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- Вкладка: Реквизиты и контакты -->
+        <section class="admin-view hidden" id="view-company">
+          <form class="product-editor" id="companyForm">
+            <div>
+              <p class="eyebrow">Настройки сайта</p>
+              <h2>Контакты и реквизиты</h2>
+              <p class="admin-note">Эти данные отображаются в шапке, футере, согласии и определяют Telegram для связи.</p>
+            </div>
+            <div class="admin-form-grid">
+              <label>Название сайта<input name="name" /></label>
+              <label>Telegram (Username или телефон без +)<input name="telegramUsername" placeholder="79649199993 или leskub_chat" /></label>
+              <label>Юридическое наименование<input name="legalName" /></label>
+              <label>Краткое юр. наименование<input name="shortLegalName" /></label>
+              <label>ИНН<input name="inn" /></label>
+              <label>ОГРНИП<input name="ogrnip" /></label>
+              <label>Email<input name="email" /></label>
+              <label>Режим работы<input name="workingHours" /></label>
+              <label class="span-2">Фактический адрес (склад)<input name="address" /></label>
+              <label class="span-2">Юридический адрес<input name="legalAddress" /></label>
+              <label class="span-2">Телефоны (каждый с новой строки)<textarea name="phones" rows="3"></textarea></label>
+            </div>
+            <button class="button button-primary" type="submit" style="width: auto;">Сохранить контакты</button>
+          </form>
+        </section>
+
+        <!-- Вкладка: JSON -->
+        <section class="admin-view hidden" id="view-json">
+          <div style="display: grid; gap: 12px;">
+            <p class="admin-note">Вы можете вставить готовый JSON сюда или скопировать результат:</p>
+            <textarea id="rawJsonTextarea" style="width: 100%; height: 450px; font-family: var(--font-mono); font-size: 13px;"></textarea>
+            <div class="admin-actions">
+              <button class="button button-primary" type="button" id="applyRawJsonBtn">Применить JSON</button>
+              <button class="button button-secondary" type="button" id="copyJsonBtn">Скопировать в буфер</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <div class="toast-stack" id="toastStack"></div>
+
+    <script>
+      let DATA = { company: {}, products: [] };
+      let selectedId = null;
+
+      const byId = (id) => document.getElementById(id);
+      const money = (v) => new Intl.NumberFormat("ru-RU", { style: "currency", currency: "RUB", maximumFractionDigits: 0 }).format(v || 0);
+
+      function toast(text) {
+        const stack = byId("toastStack");
+        const t = document.createElement("div");
+        t.className = "toast success";
+        t.textContent = text;
+        stack.appendChild(t);
+        setTimeout(() => t.remove(), 3500);
+      }
+
+      async function init() {
+        try {
+          const res = await fetch("./data.json");
+          if (res.ok) DATA = await res.json();
+        } catch (e) {
+          console.warn("Could not fetch data.json", e);
+        }
+        selectedId = DATA.products[0]?.id || null;
+        renderTabs();
+        renderProductsTable();
+        renderEditor();
+        renderCompanyForm();
+        updateRawJson();
+      }
+
+      function renderTabs() {
+        document.querySelectorAll("[data-tab]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            document.querySelectorAll("[data-tab]").forEach((b) => b.classList.remove("is-active"));
+            document.querySelectorAll(".admin-view").forEach((v) => v.classList.add("hidden"));
+            btn.classList.add("is-active");
+            byId(`view-${btn.dataset.tab}`).classList.remove("hidden");
+            if (btn.dataset.tab === "json") updateRawJson();
+          });
+        });
+      }
+
+      function renderProductsTable() {
+        const q = (byId("productSearch").value || "").toLowerCase();
+        const filtered = DATA.products.filter(p => [p.type, p.size, p.grade, p.saw].join(" ").toLowerCase().includes(q));
+        byId("productsTableBody").innerHTML = filtered.map(p => `
+          <tr data-id="${p.id}" class="${p.id === selectedId ? "is-selected" : ""}">
+            <td><strong>${p.type}</strong><span>${p.size}</span></td>
+            <td><span>${[p.grade, p.saw].filter(Boolean).join(" · ") || "стандарт"}</span></td>
+            <td><strong>${p.pricePerM3 ? `${money(p.pricePerM3)}/м3` : money(p.pricePerPiece)}</strong></td>
+            <td><span>${p.isActive ? "Активен" : "Скрыт"}</span></td>
+          </tr>
+        `).join("");
+      }
+
+      function renderEditor() {
+        const p = DATA.products.find(item => item.id === selectedId);
+        const form = byId("productForm");
+        if (!p) {
+          byId("editorTitle").textContent = "Выберите позицию";
+          return;
+        }
+        byId("editorTitle").textContent = `${p.type} ${p.size}`.trim();
+        form.elements["type"].value = p.type || "";
+        form.elements["size"].value = p.size || "";
+        form.elements["grade"].value = p.grade || "";
+        form.elements["saw"].value = p.saw || "";
+        form.elements["piecesPerM3"].value = p.piecesPerM3 ?? "";
+        form.elements["pricePerM3"].value = p.pricePerM3 ?? "";
+        form.elements["pricePerPiece"].value = p.pricePerPiece ?? "";
+        form.elements["unitLabel"].value = p.unitLabel || "шт";
+        form.elements["priceCategory"].value = p.priceCategory || "";
+        form.elements["sortOrder"].value = p.sortOrder ?? 0;
+        form.elements["isActive"].checked = p.isActive !== false;
+        form.elements["image"].value = p.image || "./assets/hero-lumber.jpg";
+      }
+
+      byId("productsTableBody").addEventListener("click", (e) => {
+        const row = e.target.closest("[data-id]");
+        if (!row) return;
+        selectedId = row.dataset.id;
+        renderProductsTable();
+        renderEditor();
+      });
+
+      byId("productSearch").addEventListener("input", renderProductsTable);
+
+      byId("productForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const p = DATA.products.find(item => item.id === selectedId);
+        if (!p) return;
+        const form = e.target;
+        p.type = form.elements["type"].value.trim();
+        p.size = form.elements["size"].value.trim();
+        p.grade = form.elements["grade"].value.trim();
+        p.saw = form.elements["saw"].value.trim();
+        p.piecesPerM3 = form.elements["piecesPerM3"].value === "" ? 1 : Number(form.elements["piecesPerM3"].value);
+        p.pricePerM3 = form.elements["pricePerM3"].value === "" ? null : Number(form.elements["pricePerM3"].value);
+        p.pricePerPiece = form.elements["pricePerPiece"].value === "" ? null : Number(form.elements["pricePerPiece"].value);
+        p.unitLabel = form.elements["unitLabel"].value.trim() || "шт";
+        p.priceCategory = form.elements["priceCategory"].value.trim() || [p.grade, p.saw].filter(Boolean).join(" ") || "стандарт";
+        p.sortOrder = Number(form.elements["sortOrder"].value || 0);
+        p.isActive = form.elements["isActive"].checked;
+        p.image = form.elements["image"].value.trim() || "./assets/hero-lumber.jpg";
+        renderProductsTable();
+        toast("Позиция обновлена!");
+      });
+
+      byId("addNewProductBtn").addEventListener("click", () => {
+        const newProduct = {
+          id: `p_${Date.now()}`,
+          type: "Новый товар",
+          size: "25*100*6000",
+          grade: "ГОСТ",
+          saw: "диск",
+          piecesPerM3: 66,
+          pricePerM3: 20000,
+          pricePerPiece: 300,
+          unitLabel: "шт",
+          priceCategory: "ГОСТ диск",
+          image: "./assets/hero-lumber.jpg",
+          isActive: true,
+          sortOrder: DATA.products.length
+        };
+        DATA.products.unshift(newProduct);
+        selectedId = newProduct.id;
+        renderProductsTable();
+        renderEditor();
+        toast("Товар добавлен");
+      });
+
+      byId("deleteProductBtn").addEventListener("click", () => {
+        if (!selectedId) return;
+        if (!confirm("Удалить выбранную позицию?")) return;
+        DATA.products = DATA.products.filter(item => item.id !== selectedId);
+        selectedId = DATA.products[0]?.id || null;
+        renderProductsTable();
+        renderEditor();
+        toast("Позиция удалена");
+      });
+
+      function renderCompanyForm() {
+        const f = byId("companyForm");
+        const c = DATA.company || {};
+        f.elements["name"].value = c.name || "";
+        f.elements["telegramUsername"].value = c.telegramUsername || "79649199993";
+        f.elements["legalName"].value = c.legalName || "";
+        f.elements["shortLegalName"].value = c.shortLegalName || "";
+        f.elements["inn"].value = c.inn || "";
+        f.elements["ogrnip"].value = c.ogrnip || "";
+        f.elements["email"].value = c.email || "";
+        f.elements["workingHours"].value = c.workingHours || "";
+        f.elements["address"].value = c.address || "";
+        f.elements["legalAddress"].value = c.legalAddress || "";
+        f.elements["phones"].value = (c.phones || []).map(p => p.label).join("\n");
+      }
+
+      byId("companyForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const f = e.target;
+        DATA.company = DATA.company || {};
+        DATA.company.name = f.elements["name"].value.trim();
+        DATA.company.telegramUsername = f.elements["telegramUsername"].value.trim();
+        DATA.company.legalName = f.elements["legalName"].value.trim();
+        DATA.company.shortLegalName = f.elements["shortLegalName"].value.trim();
+        DATA.company.inn = f.elements["inn"].value.trim();
+        DATA.company.ogrnip = f.elements["ogrnip"].value.trim();
+        DATA.company.email = f.elements["email"].value.trim();
+        DATA.company.workingHours = f.elements["workingHours"].value.trim();
+        DATA.company.address = f.elements["address"].value.trim();
+        DATA.company.legalAddress = f.elements["legalAddress"].value.trim();
+        DATA.company.phones = f.elements["phones"].value
+          .split("\n")
+          .map(p => p.trim())
+          .filter(Boolean)
+          .map(label => ({ label, href: `tel:+${label.replace(/\D/g, "")}` }));
+        toast("Контакты сохранены!");
+      });
+
+      function updateRawJson() {
+        byId("rawJsonTextarea").value = JSON.stringify(DATA, null, 2);
+      }
+
+      byId("applyRawJsonBtn").addEventListener("click", () => {
+        try {
+          DATA = JSON.parse(byId("rawJsonTextarea").value);
+          selectedId = DATA.products[0]?.id || null;
+          renderProductsTable();
+          renderEditor();
+          renderCompanyForm();
+          toast("JSON успешно загружен!");
+        } catch (e) {
+          alert("Ошибка в формате JSON: " + e.message);
+        }
+      });
+
+      byId("copyJsonBtn").addEventListener("click", () => {
+        updateRawJson();
+        navigator.clipboard.writeText(byId("rawJsonTextarea").value);
+        toast("JSON скопирован в буфер");
+      });
+
+      // Скачивание файла data.json
+      byId("downloadJsonBtn").addEventListener("click", () => {
+        updateRawJson();
+        const blob = new Blob([JSON.stringify(DATA, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "data.json";
+        a.click();
+        URL.revokeObjectURL(url);
+        toast("Файл data.json скачан!");
+      });
+
+      init();
+    </script>
+  </body>
+</html>

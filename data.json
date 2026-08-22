@@ -1,0 +1,68 @@
+{
+  "company": {
+    "name": "Лес Куб",
+    "legalName": "Индивидуальный предприниматель АРУТЮНЯН АРУТЮН ТАДЕВОСОВИЧ",
+    "shortLegalName": "ИП Арутюнян А.Т.",
+    "inn": "614319824644",
+    "ogrnip": "323237500056120",
+    "phones": [
+      {
+        "label": "+7 964 919 99 93",
+        "href": "tel:+79649199993"
+      },
+      {
+        "label": "+7 934 999 88 22",
+        "href": "tel:+79349998822"
+      }
+    ],
+    "telegramChatId": "1715480053",
+    "telegramUsername": "79649199993",
+    "email": "leskub.online@yandex.ru",
+    "legalAddress": "350080, Краснодарский край, г. Краснодар, ул. Симферопольская, д. 58, кв. 85",
+    "postalAddress": "350080, Краснодарский край, г. Краснодар, ул. Симферопольская, д. 58, кв. 85",
+    "address": "п.г.т. Тлюстенхабль, ул. Адыгейская 1/1",
+    "workingHours": "Ежедневно 09:00-18:00",
+    "bank": "ООО «Банк Точка»",
+    "bankCity": "г. Москва",
+    "checkingAccount": "40802810001500481713",
+    "correspondentAccount": "30101810745374525104",
+    "bik": "044525104",
+    "yandexMetrikaId": "364fb97a0d1eac95"
+  },
+  "products": [
+    { "id": "p01", "type": "Доска", "size": "25*100*6000", "grade": "ГОСТ", "saw": "диск", "piecesPerM3": 66, "pricePerM3": 20000, "pricePerPiece": 303.03, "unitLabel": "шт", "priceCategory": "ГОСТ диск", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 0 },
+    { "id": "p02", "type": "Доска", "size": "25*100*6000", "grade": "ГОСТ", "saw": "лента", "piecesPerM3": 66, "pricePerM3": 19000, "pricePerPiece": 287.88, "unitLabel": "шт", "priceCategory": "ГОСТ лента", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 1 },
+    { "id": "p03", "type": "Доска", "size": "25*100*6000", "grade": "1 ТУ", "saw": "диск", "piecesPerM3": 66, "pricePerM3": 18000, "pricePerPiece": 272.73, "unitLabel": "шт", "priceCategory": "1 ТУ диск", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 2 },
+    { "id": "p04", "type": "Доска", "size": "25*100*6000", "grade": "2 сорт", "saw": "диск", "piecesPerM3": 66, "pricePerM3": 15500, "pricePerPiece": 234.85, "unitLabel": "шт", "priceCategory": "2 сорт диск", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 3 },
+    { "id": "p05", "type": "Доска", "size": "25*100*6000", "grade": "2 сорт", "saw": "лента", "piecesPerM3": 66, "pricePerM3": 13000, "pricePerPiece": 196.97, "unitLabel": "шт", "priceCategory": "2 сорт лента", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 4 },
+    { "id": "p06", "type": "Доска", "size": "25*150*6000", "grade": "ГОСТ", "saw": "диск", "piecesPerM3": 44, "pricePerM3": 20000, "pricePerPiece": 454.55, "unitLabel": "шт", "priceCategory": "ГОСТ диск", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 5 },
+    { "id": "p07", "type": "Доска", "size": "25*150*6000", "grade": "ГОСТ", "saw": "лента", "piecesPerM3": 44, "pricePerM3": 19000, "pricePerPiece": 431.82, "unitLabel": "шт", "priceCategory": "ГОСТ лента", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 6 },
+    { "id": "p08", "type": "Доска", "size": "25*150*6000", "grade": "1 ТУ", "saw": "лента", "piecesPerM3": 44, "pricePerM3": 17000, "pricePerPiece": 386.36, "unitLabel": "шт", "priceCategory": "1 ТУ лента", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 7 },
+    { "id": "p09", "type": "Доска", "size": "25*150*6000", "grade": "2 сорт", "saw": "лента", "piecesPerM3": 44, "pricePerM3": 13000, "pricePerPiece": 295.45, "unitLabel": "шт", "priceCategory": "2 сорт лента", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 8 },
+    { "id": "p10", "type": "Доска", "size": "30*150*6000", "grade": "ГОСТ", "saw": "диск", "piecesPerM3": 37, "pricePerM3": 21000, "pricePerPiece": 567.57, "unitLabel": "шт", "priceCategory": "ГОСТ диск", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 9 },
+    { "id": "p11", "type": "Доска", "size": "40*150*6000", "grade": "ГОСТ", "saw": "диск", "piecesPerM3": 27, "pricePerM3": 21000, "pricePerPiece": 777.78, "unitLabel": "шт", "priceCategory": "ГОСТ диск", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 10 },
+    { "id": "p12", "type": "Доска", "size": "40*150*6000", "grade": "2 сорт", "saw": "лента", "piecesPerM3": 27, "pricePerM3": 17000, "pricePerPiece": 629.63, "unitLabel": "шт", "priceCategory": "2 сорт лента", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 11 },
+    { "id": "p13", "type": "Доска", "size": "50*100*6000", "grade": "ГОСТ", "saw": "лента", "piecesPerM3": 33, "pricePerM3": 19000, "pricePerPiece": 575.76, "unitLabel": "шт", "priceCategory": "ГОСТ лента", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 12 },
+    { "id": "p14", "type": "Доска", "size": "50*100*6000", "grade": "1 ТУ", "saw": "лента", "piecesPerM3": 33, "pricePerM3": 17000, "pricePerPiece": 515.15, "unitLabel": "шт", "priceCategory": "1 ТУ лента", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 13 },
+    { "id": "p15", "type": "Доска", "size": "50*100*6000", "grade": "2 сорт", "saw": "лента", "piecesPerM3": 33, "pricePerM3": 16500, "pricePerPiece": 500, "unitLabel": "шт", "priceCategory": "2 сорт лента", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 14 },
+    { "id": "p16", "type": "Доска", "size": "50*150*6000", "grade": "ГОСТ", "saw": "диск", "piecesPerM3": 22, "pricePerM3": 20500, "pricePerPiece": 931.82, "unitLabel": "шт", "priceCategory": "ГОСТ диск", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 15 },
+    { "id": "p17", "type": "Доска", "size": "50*150*6000", "grade": "ГОСТ", "saw": "лента", "piecesPerM3": 22, "pricePerM3": 19000, "pricePerPiece": 863.64, "unitLabel": "шт", "priceCategory": "ГОСТ лента", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 16 },
+    { "id": "p18", "type": "Доска", "size": "50*150*6000", "grade": "1 ТУ", "saw": "диск", "piecesPerM3": 22, "pricePerM3": 18000, "pricePerPiece": 818.18, "unitLabel": "шт", "priceCategory": "1 ТУ диск", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 17 },
+    { "id": "p19", "type": "Доска", "size": "50*150*6000", "grade": "1 ТУ", "saw": "лента", "piecesPerM3": 22, "pricePerM3": 17000, "pricePerPiece": 772.73, "unitLabel": "шт", "priceCategory": "1 ТУ лента", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 18 },
+    { "id": "p20", "type": "Доска", "size": "50*150*6000", "grade": "2 сорт", "saw": "лента", "piecesPerM3": 22, "pricePerM3": 16000, "pricePerPiece": 727.27, "unitLabel": "шт", "priceCategory": "2 сорт лента", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 19 },
+    { "id": "p21", "type": "Доска", "size": "50*200*6000", "grade": "ГОСТ", "saw": "лента", "piecesPerM3": 16, "pricePerM3": 19000, "pricePerPiece": 1187.5, "unitLabel": "шт", "priceCategory": "ГОСТ лента", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 20 },
+    { "id": "p22", "type": "Брус", "size": "100*100*6000", "grade": "ГОСТ", "saw": "лента", "piecesPerM3": 16, "pricePerM3": 19000, "pricePerPiece": 1187.5, "unitLabel": "шт", "priceCategory": "ГОСТ лента", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 21 },
+    { "id": "p23", "type": "Брус", "size": "100*100*6000", "grade": "1 ТУ", "saw": "лента", "piecesPerM3": 16, "pricePerM3": 17000, "pricePerPiece": 1062.5, "unitLabel": "шт", "priceCategory": "1 ТУ лента", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 22 },
+    { "id": "p24", "type": "Брус", "size": "150*150*6000", "grade": "ГОСТ", "saw": "лента", "piecesPerM3": 7, "pricePerM3": 19000, "pricePerPiece": 2714.29, "unitLabel": "шт", "priceCategory": "ГОСТ лента", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 23 },
+    { "id": "p25", "type": "Брус", "size": "150*150*6000", "grade": "1 ТУ", "saw": "лента", "piecesPerM3": 7, "pricePerM3": 17000, "pricePerPiece": 2428.57, "unitLabel": "шт", "priceCategory": "1 ТУ лента", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 24 },
+    { "id": "p26", "type": "Брусок", "size": "50*50*6000", "grade": "ГОСТ", "saw": "диск", "piecesPerM3": 66, "pricePerM3": 26400, "pricePerPiece": 400, "unitLabel": "шт", "priceCategory": "ГОСТ диск", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 25 },
+    { "id": "p27", "type": "Брусок", "size": "50*50*6000", "grade": "ГОСТ", "saw": "лента", "piecesPerM3": 66, "pricePerM3": 25000, "pricePerPiece": 378.79, "unitLabel": "шт", "priceCategory": "ГОСТ лента", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 26 },
+    { "id": "p28", "type": "Брусок", "size": "25*50*3000", "grade": "", "saw": "", "piecesPerM3": 266, "pricePerM3": 23940, "pricePerPiece": 90, "unitLabel": "шт", "priceCategory": "стандарт", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 27 },
+    { "id": "p29", "type": "Брусок", "size": "50*50*3000", "grade": "", "saw": "", "piecesPerM3": 132, "pricePerM3": 23760, "pricePerPiece": 180, "unitLabel": "шт", "priceCategory": "стандарт", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 28 },
+    { "id": "p30", "type": "Плита OSB", "size": "Плита OSB 9", "grade": "", "saw": "", "piecesPerM3": 1, "pricePerM3": null, "pricePerPiece": 700, "unitLabel": "лист", "priceCategory": "лист", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 29 },
+    { "id": "p31", "type": "Плита OSB", "size": "Плита OSB 12", "grade": "", "saw": "", "piecesPerM3": 1, "pricePerM3": null, "pricePerPiece": 900, "unitLabel": "лист", "priceCategory": "лист", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 30 },
+    { "id": "p32", "type": "Плита OSB", "size": "Плита OSB 15", "grade": "", "saw": "", "piecesPerM3": 1, "pricePerM3": null, "pricePerPiece": 1200, "unitLabel": "лист", "priceCategory": "лист", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 31 },
+    { "id": "p33", "type": "Огнебиозащита", "size": "Огнебиозащита", "grade": "20 л", "saw": "", "piecesPerM3": 1, "pricePerM3": null, "pricePerPiece": 1000, "unitLabel": "канистра", "priceCategory": "20 л", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 32 },
+    { "id": "p34", "type": "Парогидроизоляция", "size": "Парогидроизоляция", "grade": "", "saw": "", "piecesPerM3": 1, "pricePerM3": null, "pricePerPiece": 900, "unitLabel": "рулон", "priceCategory": "рулон", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 33 }
+  ]
+}

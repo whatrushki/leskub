@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Лес Куб | Пиломатериалы, доска, брус и OSB с доставкой</title>
+    <meta
+      name="description"
+      content="Купить пиломатериалы, доску, брус, брусок и OSB у Лес Куб. Расчет заказа в штуках и кубометрах, склад в Тлюстенхабле, доставка и самовывоз."
+    />
+    <link rel="icon" type="image/png" href="./assets/logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&family=Playfair+Display:wght@400;500&family=Work+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header" aria-label="Основная навигация">
+      <a class="brand brand-with-logo" href="#top">
+        <img class="site-logo" src="./assets/logo.png" alt="Лес Куб" style="aspect-ratio: 1; height: 38px; border-radius: 6px;" />
+        <span id="headerBrandName">Лес Куб</span>
+      </a>
+      <nav class="main-nav" aria-label="Разделы сайта">
+        <a href="#catalog">Каталог</a>
+        <a href="#reviews">Отзывы</a>
+        <a href="#contacts">Контакты</a>
+        <a href="./builder.html" style="color: var(--accent); opacity: 0.9;">Конструктор</a>
+      </nav>
+      <div class="header-tools">
+        <button class="button button-primary header-action" type="button" data-open-calculator>
+          Рассчитать
+        </button>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <img class="hero-bg" src="./assets/hero-lumber.jpg" alt="" aria-hidden="true" />
+        <div class="hero-content">
+          <p class="eyebrow">Лес Куб — пиломатериалы в наличии</p>
+          <h1 id="hero-title">Доска, брус и OSB для стройки с быстрым расчетом заказа</h1>
+          <p class="hero-copy">
+            Подберем пиломатериалы под задачу, посчитаем объем в штуках и кубометрах,
+            соберем заявку и уточним доставку или самовывоз со склада в Тлюстенхабле.
+          </p>
+          <div class="hero-actions">
+            <button class="button button-primary" type="button" data-open-calculator>
+              Рассчитать стоимость
+            </button>
+            <a class="button button-secondary" href="#catalog">Перейти в каталог</a>
+          </div>
+        </div>
+        <a class="hero-hint" href="#catalog" aria-label="Перейти к каталогу">
+          <span>Каталог ниже</span>
+          <span aria-hidden="true">↓</span>
+        </a>
+      </section>
+
+      <section class="section section-intro" aria-label="Преимущества">
+        <div class="section-inner intro-grid">
+          <article>
+            <span class="metric">Склад рядом</span>
+            <p>Пиломатериалы, OSB и расходники можно подобрать под частную стройку или бригадный заказ.</p>
+          </article>
+          <article>
+            <span class="metric">м3 / шт</span>
+            <p>Калькулятор сразу переводит кубатуру в штуки и помогает понять итоговую стоимость.</p>
+          </article>
+          <article>
+            <span class="metric">Заявка в Telegram</span>
+            <p>Соберите расчет, нажмите «Отправить», и заявка сразу откроется в Telegram для быстрой связи с менеджером.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section catalog-section" id="catalog" aria-labelledby="catalog-title">
+        <div class="section-inner">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Каталог и цены</p>
+              <h2 id="catalog-title">Прайс с расчетом по каждой позиции</h2>
+            </div>
+            <button class="button button-primary" type="button" data-open-calculator>
+              Открыть мини-корзину
+            </button>
+          </div>
+
+          <div class="catalog-layout">
+            <aside class="filters" aria-label="Фильтры каталога">
+              <label>
+                Тип товара
+                <select id="typeFilter"></select>
+              </label>
+              <label>
+                Размер
+                <select id="sizeFilter"></select>
+              </label>
+              <label>
+                Сорт
+                <select id="gradeFilter"></select>
+              </label>
+              <label>
+                Распил
+                <select id="sawFilter"></select>
+              </label>
+              <button class="button button-ghost" type="button" id="resetFilters">
+                Сбросить фильтры
+              </button>
+            </aside>
+
+            <div class="catalog-content">
+              <div class="catalog-toolbar">
+                <p id="catalogCount">0 товаров</p>
+                <div class="view-note">Фильтры показывают только доступные сочетания.</div>
+              </div>
+              <div class="product-grid" id="productGrid" aria-live="polite"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reviews-section" id="reviews" aria-labelledby="reviews-title">
+        <div class="section-inner reviews-grid">
+          <div>
+            <p class="eyebrow">Отзывы клиентов</p>
+            <h2 id="reviews-title">Помогаем закрыть заказ без лишних звонков</h2>
+            <p class="muted">
+              Подскажем по сорту, распилу и объему, чтобы вы сразу понимали количество материала и бюджет.
+            </p>
+          </div>
+          <div class="review-carousel" aria-roledescription="carousel">
+            <div class="review-card" id="reviewCard" aria-live="polite"></div>
+            <div class="carousel-controls">
+              <button class="icon-button" type="button" id="prevReview" aria-label="Предыдущий отзыв">‹</button>
+              <div class="review-dots" id="reviewDots" aria-label="Навигация по отзывам"></div>
+              <button class="icon-button" type="button" id="nextReview" aria-label="Следующий отзыв">›</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section contact-section" id="contacts" aria-labelledby="contacts-title">
+        <div class="section-inner contact-grid">
+          <div class="contact-copy">
+            <p class="eyebrow">Связаться с нами</p>
+            <h2 id="contacts-title">Оставьте заявку — уточним наличие, объем и доставку</h2>
+            <p class="muted">
+              Напишите, что строите и куда нужна отгрузка. Заявка с вашим расчетом откроется напрямую в Telegram.
+            </p>
+          </div>
+
+          <form class="lead-form" id="leadForm" novalidate>
+            <label>
+              Имя
+              <input type="text" name="name" autocomplete="name" placeholder="Как к вам обращаться" required />
+            </label>
+            <label>
+              Телефон
+              <input type="tel" name="phone" autocomplete="tel" placeholder="+7 999 000-00-00" required />
+            </label>
+            <label>
+              Сообщение
+              <textarea name="message" rows="3" placeholder="Например: нужна доставка на участок в понедельник"></textarea>
+            </label>
+            <label>
+              Состав расчета
+              <textarea id="orderSummary" rows="5" readonly></textarea>
+            </label>
+            <label class="consent-row">
+              <input type="checkbox" id="consentCheckbox" checked required />
+              <span>Я даю согласие на <button type="button" id="openConsentBtn" style="background:none;border:none;padding:0;color:var(--accent);text-decoration:underline;cursor:pointer;font:inherit;">обработку персональных данных</button></span>
+            </label>
+            <button class="button button-primary" type="submit">Отправить в Telegram</button>
+            <p class="form-status" id="formStatus" role="status"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-about">
+          <a class="brand brand-with-logo" href="#top" style="display: flex; align-items: center">
+            <img class="site-logo" src="./assets/logo.png" alt="Лес Куб" style="aspect-ratio: 1; height: 38px; border-radius: 6px;" />
+            <span id="footerBrandName">Лес Куб</span>
+          </a>
+          <p>Пиломатериалы, OSB и сопутствующие товары для строительства, ремонта и хозяйственных задач.</p>
+          <div class="footer-map" aria-label="Карта расположения склада">
+            <iframe
+              title="Лес Куб на карте"
+              src="https://yandex.ru/map-widget/v1/?text=%D0%A0%D0%B5%D1%81%D0%BF%D1%83%D0%B1%D0%BB%D0%B8%D0%BA%D0%B0%20%D0%90%D0%B4%D1%8B%D0%B3%D0%B5%D1%8F%2C%20%D0%BF.%D0%B3.%D1%82.%20%D0%A2%D0%BB%D1%8E%D1%81%D1%82%D0%B5%D0%BD%D1%85%D0%B0%D0%B1%D0%BB%D1%8C%2C%20%D1%83%D0%BB.%20%D0%90%D0%B4%D1%8B%D0%B3%D0%B5%D0%B9%D1%81%D0%BA%D0%B0%D1%8F%201%2F1&z=15"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
+        <div class="footer-legal">
+          <dl id="footerLegalList"></dl>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Калькулятор / Мини-корзина -->
+    <div class="modal" id="calculatorModal" aria-hidden="true">
+      <div class="modal-backdrop" data-close-calculator></div>
+      <section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="calculatorTitle" tabindex="-1">
+        <div class="modal-header">
+          <div>
+            <p class="eyebrow">Мини-корзина</p>
+            <h2 id="calculatorTitle">Расчет заказа</h2>
+          </div>
+          <button class="icon-button" type="button" data-close-calculator aria-label="Закрыть">×</button>
+        </div>
+        <div class="cart-add-row">
+          <label>
+            Товар
+            <select id="cartProductSelect"></select>
+          </label>
+          <button class="button button-primary" type="button" id="addSelectedProduct">Добавить</button>
+        </div>
+        <div class="cart-list" id="cartList" aria-live="polite"></div>
+        <div class="cart-total">
+          <span>Итого</span>
+          <strong id="cartTotal">0 ₽</strong>
+        </div>
+        <div class="modal-actions">
+          <button class="button button-secondary" type="button" data-close-calculator>Продолжить выбор</button>
+          <a class="button button-primary" href="#contacts" data-close-calculator>Перейти к заявке</a>
+        </div>
+      </section>
+    </div>
+
+    <!-- Модальное окно согласия -->
+    <div class="modal" id="consentModal" aria-hidden="true">
+      <div class="modal-backdrop" id="closeConsentBackdrop"></div>
+      <section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="consentTitle" tabindex="-1">
+        <div class="modal-header">
+          <div>
+            <p class="eyebrow">Юридическая информация</p>
+            <h2 id="consentTitle">Согласие на обработку данных</h2>
+          </div>
+          <button class="icon-button" type="button" id="closeConsentBtn" aria-label="Закрыть">×</button>
+        </div>
+        <div style="font-size: 14px; line-height: 1.5; display: grid; gap: 12px; max-height: 400px; overflow-y: auto; padding-right: 8px;">
+          <p id="consentLegalText">Настоящим в соответствии с Федеральным законом № 152-ФЗ «О персональных данных» подтверждаю свое согласие на обработку персональных данных...</p>
+        </div>
+        <div class="modal-actions">
+          <button class="button button-primary" type="button" id="agreeConsentBtn">Принимаю</button>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      let SITE_DATA = { company: {}, products: [] };
+      let PRODUCTS = [];
+      const timberTypes = new Set(["Доска", "Брус", "Брусок"]);
+      const filterKeys = ["type", "size", "grade", "saw"];
+      const filterLabels = { type: "Все типы", size: "Все размеры", grade: "Все сорта", saw: "Любой распил" };
+      const state = { filters: { type: "all", size: "all", grade: "all", saw: "all" }, cart: [], reviewIndex: 0 };
+
+      const REVIEWS = [
+        { text: "Берём материал уже не первый раз. Размеры соответствуют, по наличию отвечают быстро. Удобно, что можно сразу получить расчет по количеству и стоимости.", author: "Сергей", role: "прораб" },
+        { text: "Нужна была сухая доска для внутренней отделки. Подобрали нужный сорт, помогли с погрузкой. Материал нормальный, без неприятных сюрпризов.", author: "Игорь", role: "монтажник каркасных домов" },
+        { text: "Заказывал доску на крышу и брус на перекрытие. Помогли посчитать объем, лишнего не навязывали.", author: "Андрей", role: "частный застройщик" },
+      ];
+
+      const byId = (id) => document.getElementById(id);
+      const normalize = (value) => value || "__empty";
+      const money = (value) => new Intl.NumberFormat("ru-RU", { style: "currency", currency: "RUB", maximumFractionDigits: 0 }).format(value || 0);
+      const number = (value, digits = 3) => new Intl.NumberFormat("ru-RU", { maximumFractionDigits: digits }).format(value || 0);
+
+      async function loadData() {
+        try {
+          const res = await fetch("./data.json");
+          if (res.ok) {
+            SITE_DATA = await res.json();
+          }
+        } catch (e) {
+          console.warn("data.json not loaded via fetch, using fallback.", e);
+        }
+        PRODUCTS = (SITE_DATA.products || []).filter(p => p.isActive !== false);
+        renderCompanyInfo();
+      }
+
+      function renderCompanyInfo() {
+        const c = SITE_DATA.company || {};
+        if (c.name) {
+          byId("headerBrandName").textContent = c.name;
+          byId("footerBrandName").textContent = c.name;
+        }
+        const phonesHtml = (c.phones || []).map(p => `<a href="${p.href}">${p.label}</a>`).join("<br />");
+        const list = byId("footerLegalList");
+        if (list) {
+          list.innerHTML = `
+            <div><dt>Продавец</dt><dd>${c.legalName || ""}</dd></div>
+            <div><dt>Краткое наименование</dt><dd>${c.shortLegalName || ""}</dd></div>
+            <div><dt>ИНН</dt><dd>${c.inn || ""}</dd></div>
+            <div><dt>ОГРНИП</dt><dd>${c.ogrnip || ""}</dd></div>
+            <div><dt>Юридический адрес</dt><dd>${c.legalAddress || ""}</dd></div>
+            <div><dt>Фактический адрес</dt><dd>${c.address || ""}</dd></div>
+            <div><dt>Режим работы</dt><dd>${c.workingHours || ""}</dd></div>
+            <div><dt>Телефоны</dt><dd>${phonesHtml}</dd></div>
+            <div><dt>Email</dt><dd><a href="mailto:${c.email || ''}">${c.email || ''}</a></dd></div>
+          `;
+        }
+        const consentText = byId("consentLegalText");
+        if (consentText && c.legalName) {
+          consentText.textContent = `Настоящим в соответствии с Федеральным законом № 152-ФЗ «О персональных данных» я свободно, своей волей и в своем интересе подтверждаю свое согласие на обработку ${c.legalName} (${c.shortLegalName}, ОГРНИП ${c.ogrnip}, ИНН ${c.inn}) моих персональных данных, указанных при оформлении заявки на сайте.`;
+        }
+      }
+
+      function productTitle(p) { return [p.type, p.size].filter(Boolean).join(" "); }
+      function productDetails(p) { return [p.grade, p.saw, p.priceCategory].filter(Boolean).join(" · ") || "стандарт"; }
+      function supportsVolume(p) { return timberTypes.has(p.type) && (p.piecesPerM3 > 1); }
+      function unitPrice(p) { return Number(p.pricePerPiece ?? p.pricePerM3 ?? 0); }
+
+      function productMatches(p, filters, omitKey = null) {
+        return filterKeys.every((k) => {
+          if (k === omitKey) return true;
+          return filters[k] === "all" || normalize(p[k]) === filters[k];
+        });
+      }
+
+      function productsByFilters() { return PRODUCTS.filter((p) => productMatches(p, state.filters)); }
+      function valuesForFilter(key) {
+        const vals = PRODUCTS.filter((p) => productMatches(p, state.filters, key)).map((p) => normalize(p[key]));
+        return [...new Set(vals)];
+      }
+
+      function fillSelect(select, values, placeholder) {
+        if (!select) return;
+        select.innerHTML = "";
+        select.append(new Option(placeholder, "all"));
+        values.forEach((v) => select.append(new Option(v === "__empty" ? "Не указано" : v, v)));
+      }
+
+      function refreshFilterOptions() {
+        let changed = true;
+        while (changed) {
+          changed = false;
+          filterKeys.forEach((k) => {
+            const vals = valuesForFilter(k);
+            if (state.filters[k] !== "all" && !vals.includes(state.filters[k])) {
+              state.filters[k] = "all";
+              changed = true;
+            }
+          });
+        }
+        filterKeys.forEach((k) => {
+          const sel = byId(`${k}Filter`);
+          fillSelect(sel, valuesForFilter(k), filterLabels[k]);
+          if (sel) sel.value = state.filters[k];
+        });
+      }
+
+      function initFilters() {
+        if (!byId("typeFilter")) return;
+        refreshFilterOptions();
+        filterKeys.forEach((k) => {
+          byId(`${k}Filter`).addEventListener("change", (e) => {
+            state.filters[k] = e.target.value;
+            refreshFilterOptions();
+            renderCatalog();
+          });
+        });
+        byId("resetFilters").addEventListener("click", () => {
+          state.filters = { type: "all", size: "all", grade: "all", saw: "all" };
+          refreshFilterOptions();
+          renderCatalog();
+        });
+      }
+
+      function plural(count, variants) {
+        const mod10 = count % 10, mod100 = count % 100;
+        if (mod10 === 1 && mod100 !== 11) return variants[0];
+        if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return variants[1];
+        return variants[2];
+      }
+
+      function renderCatalog() {
+        const grid = byId("productGrid");
+        if (!grid) return;
+        const items = productsByFilters();
+        byId("catalogCount").textContent = `${items.length} ${plural(items.length, ["товар", "товара", "товаров"])}`;
+        grid.innerHTML = items.map(renderProductCard).join("");
+      }
+
+      function renderProductCard(p) {
+        const hasVol = supportsVolume(p);
+        return `
+          <article class="product-card">
+            <div class="product-image" style="--product-image: url('${p.image || "./assets/hero-lumber.jpg"}')">
+              <span class="product-type-badge">${p.type}</span>
+            </div>
+            <div class="product-body">
+              <div>
+                <div class="product-meta">
+                  ${p.grade ? `<span class="tag">${p.grade}</span>` : ""}
+                  ${p.saw ? `<span class="tag">${p.saw}</span>` : ""}
+                  <span class="tag">${p.priceCategory || "стандарт"}</span>
+                </div>
+                <h3>${productTitle(p)}</h3>
+                <p>${hasVol ? `${number(p.piecesPerM3, 0)} шт в 1 м3` : `Единица: ${p.unitLabel || "шт"}`}</p>
+              </div>
+              <div class="price-row">
+                <div class="price-box">
+                  <span>${hasVol ? "Цена за м3" : "Цена"}</span>
+                  <strong>${money(hasVol ? p.pricePerM3 : unitPrice(p))}</strong>
+                </div>
+                <div class="price-box">
+                  <span>${hasVol ? "Цена за штуку" : "Формат"}</span>
+                  <strong>${hasVol ? money(p.pricePerPiece) : p.unitLabel || "шт"}</strong>
+                </div>
+              </div>
+              <button class="button button-primary" type="button" data-add-product="${p.id}">Добавить в расчет</button>
+            </div>
+          </article>
+        `;
+      }
+
+      function initCart() {
+        rebuildCartSelect();
+        byId("addSelectedProduct")?.addEventListener("click", () => addToCart(byId("cartProductSelect").value));
+        document.querySelectorAll("[data-open-calculator]").forEach((b) => b.addEventListener("click", openModal));
+        document.querySelectorAll("[data-close-calculator]").forEach((b) => b.addEventListener("click", closeModal));
+        document.addEventListener("click", (e) => {
+          const btn = e.target.closest("[data-add-product]");
+          if (btn) {
+            addToCart(btn.dataset.addProduct);
+            openModal();
+          }
+        });
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") { closeModal(); closeConsentModal(); }
+        });
+        renderCart();
+      }
+
+      function rebuildCartSelect() {
+        const select = byId("cartProductSelect");
+        if (!select) return;
+        select.innerHTML = "";
+        PRODUCTS.forEach((p) => {
+          select.append(new Option(`${productTitle(p)} · ${productDetails(p)}`, p.id));
+        });
+      }
+
+      function addToCart(productId) {
+        const p = PRODUCTS.find((i) => i.id === productId);
+        if (!p) return;
+        const exist = state.cart.find((i) => i.productId === productId);
+        if (exist) exist.quantity += 1;
+        else state.cart.push({ productId, quantity: 1 });
+        renderCart();
+      }
+
+      function removeFromCart(productId) {
+        state.cart = state.cart.filter((i) => i.productId !== productId);
+        renderCart();
+      }
+
+      function updateCartQuantity(productId, qty) {
+        const item = state.cart.find((i) => i.productId === productId);
+        if (!item) return;
+        item.quantity = Math.max(0, qty);
+        if (item.quantity === 0) removeFromCart(productId);
+        else renderCart();
+      }
+
+      function updateCartVolume(productId, vol) {
+        const p = PRODUCTS.find((i) => i.id === productId);
+        if (!p) return;
+        updateCartQuantity(productId, Math.ceil(Math.max(0, vol) * p.piecesPerM3));
+      }
+
+      function itemSubtotal(item) {
+        const p = PRODUCTS.find((entry) => entry.id === item.productId);
+        return item.quantity * unitPrice(p);
+      }
+
+      function cartTotal() {
+        return state.cart.reduce((sum, item) => sum + itemSubtotal(item), 0);
+      }
+
+      function renderCart() {
+        const list = byId("cartList");
+        if (!list) return;
+        if (!state.cart.length) {
+          list.innerHTML = `<div class="empty-cart">Добавьте позиции из каталога или выберите товар выше.</div>`;
+        } else {
+          list.innerHTML = state.cart.map((item) => {
+            const p = PRODUCTS.find((entry) => entry.id === item.productId);
+            const hasVol = supportsVolume(p);
+            const vol = hasVol ? item.quantity / p.piecesPerM3 : 0;
+            return `
+              <article class="cart-item ${hasVol ? "" : "no-volume"}">
+                <div class="cart-item-title">
+                  <strong>${productTitle(p)}</strong>
+                  <span>${productDetails(p)} · ${hasVol ? `${number(p.piecesPerM3, 0)} шт/м3` : p.unitLabel}</span>
+                  <div class="item-subtotal">${money(itemSubtotal(item))}</div>
+                </div>
+                <label>${hasVol ? "Штук" : `Кол-во, ${p.unitLabel || "шт"}`}<input type="number" min="0" step="1" value="${item.quantity}" data-cart-pieces="${p.id}" /></label>
+                ${hasVol ? `<label>Кубометры<input type="number" min="0" step="0.001" value="${vol.toFixed(3)}" data-cart-volume="${p.id}" /></label>` : ""}
+                <button class="icon-button" type="button" data-remove-product="${p.id}" aria-label="Удалить">×</button>
+              </article>
+            `;
+          }).join("");
+        }
+        byId("cartTotal").textContent = money(cartTotal());
+        updateOrderSummary();
+      }
+
+      function initCartEvents() {
+        byId("cartList")?.addEventListener("change", (e) => {
+          if (e.target.matches("[data-cart-pieces]")) updateCartQuantity(e.target.dataset.cartPieces, Number(e.target.value));
+          if (e.target.matches("[data-cart-volume]")) updateCartVolume(e.target.dataset.cartVolume, Number(e.target.value.replace(",", ".")));
+        });
+        byId("cartList")?.addEventListener("click", (e) => {
+          const btn = e.target.closest("[data-remove-product]");
+          if (btn) removeFromCart(btn.dataset.removeProduct);
+        });
+      }
+
+      function openModal() {
+        const modal = byId("calculatorModal");
+        if (!modal) return;
+        modal.classList.add("is-open");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.classList.add("modal-open");
+      }
+
+      function closeModal() {
+        const modal = byId("calculatorModal");
+        if (!modal) return;
+        modal.classList.remove("is-open");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("modal-open");
+      }
+
+      function orderSummaryText() {
+        if (!state.cart.length) return "Позиции пока не выбраны.";
+        const lines = state.cart.map((item, idx) => {
+          const p = PRODUCTS.find((entry) => entry.id === item.productId);
+          const vol = supportsVolume(p) ? `, ${number(item.quantity / p.piecesPerM3)} м3` : "";
+          return `${idx + 1}. ${productTitle(p)} (${productDetails(p)}) — ${number(item.quantity, 0)} ${p.unitLabel || "шт"}${vol}: ${money(itemSubtotal(item))}`;
+        });
+        lines.push(`Итого: ${money(cartTotal())}`);
+        return lines.join("\n");
+      }
+
+      function updateOrderSummary() {
+        const s = byId("orderSummary");
+        if (s) s.value = orderSummaryText();
+      }
+
+      function initReviews() {
+        byId("prevReview")?.addEventListener("click", () => {
+          state.reviewIndex = (state.reviewIndex - 1 + REVIEWS.length) % REVIEWS.length;
+          renderReview();
+        });
+        byId("nextReview")?.addEventListener("click", () => {
+          state.reviewIndex = (state.reviewIndex + 1) % REVIEWS.length;
+          renderReview();
+        });
+        renderReview();
+      }
+
+      function renderReview() {
+        if (!byId("reviewCard")) return;
+        const r = REVIEWS[state.reviewIndex];
+        byId("reviewCard").innerHTML = `<blockquote>«${r.text}»</blockquote><cite>${r.author}</cite><small>${r.role}</small>`;
+        byId("reviewDots").innerHTML = REVIEWS.map((_, i) => `<button class="review-dot ${i === state.reviewIndex ? "active" : ""}" type="button" data-review-index="${i}"></button>`).join("");
+        document.querySelectorAll("[data-review-index]").forEach((b) => {
+          b.addEventListener("click", () => {
+            state.reviewIndex = Number(b.dataset.reviewIndex);
+            renderReview();
+          });
+        });
+      }
+
+      function initConsentModal() {
+        const modal = byId("consentModal");
+        byId("openConsentBtn")?.addEventListener("click", () => {
+          modal.classList.add("is-open");
+          modal.setAttribute("aria-hidden", "false");
+          document.body.classList.add("modal-open");
+        });
+        const close = () => {
+          modal.classList.remove("is-open");
+          modal.setAttribute("aria-hidden", "true");
+          document.body.classList.remove("modal-open");
+        };
+        byId("closeConsentBtn")?.addEventListener("click", close);
+        byId("closeConsentBackdrop")?.addEventListener("click", close);
+        byId("agreeConsentBtn")?.addEventListener("click", () => {
+          const cb = byId("consentCheckbox");
+          if (cb) cb.checked = true;
+          close();
+        });
+      }
+
+      function closeConsentModal() {
+        const modal = byId("consentModal");
+        if (modal) {
+          modal.classList.remove("is-open");
+          modal.setAttribute("aria-hidden", "true");
+          document.body.classList.remove("modal-open");
+        }
+      }
+
+      // Отправка заявки в Telegram
+      function initForm() {
+        const form = byId("leadForm");
+        const status = byId("formStatus");
+        if (!form) return;
+
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+
+          const consentCheckbox = byId("consentCheckbox");
+          if (consentCheckbox && !consentCheckbox.checked) {
+            status.textContent = "Необходимо согласие на обработку данных.";
+            status.className = "form-status error";
+            return;
+          }
+
+          const data = new FormData(form);
+          const name = String(data.get("name") || "").trim();
+          const phone = String(data.get("phone") || "").trim();
+          const message = String(data.get("message") || "").trim();
+          const summary = orderSummaryText();
+          const total = money(cartTotal());
+
+          if (name.length < 2 || phone.replace(/\D/g, "").length < 10) {
+            status.textContent = "Пожалуйста, укажите ваше имя и корректный номер телефона.";
+            status.className = "form-status error";
+            return;
+          }
+
+          // Формируем текст для Telegram
+          const text = [
+            `🌲 Новая заявка с сайта Лес Куб`,
+            `👤 Имя: ${name}`,
+            `📞 Телефон: ${phone}`,
+            message ? `💬 Комментарий: ${message}` : "",
+            `📦 Состав заказа:\n${summary}`
+          ].filter(Boolean).join("\n\n");
+
+          const tgUsername = SITE_DATA.company?.telegramUsername || "79649199993";
+          const tgUrl = `https://t.me/${tgUsername.replace("@", "")}?text=${encodeURIComponent(text)}`;
+
+          status.textContent = "Перенаправляем в Telegram...";
+          status.className = "form-status success";
+
+          setTimeout(() => {
+            window.open(tgUrl, "_blank");
+          }, 400);
+        });
+      }
+
+      async function boot() {
+        await loadData();
+        initFilters();
+        renderCatalog();
+        initCart();
+        initCartEvents();
+        initReviews();
+        initConsentModal();
+        initForm();
+      }
+
+      boot();
+    </script>
+  </body>
+</html>
