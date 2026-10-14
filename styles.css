@@ -224,7 +224,7 @@ h1, h2, h3, p { margin-top: 0; }
 h1, h2, h3 { font-family: var(--font-display); font-weight: 500; }
 h1 { max-width: 900px; margin-bottom: 24px; color: var(--text); font-size: clamp(40px, 6.5vw, 76px); line-height: 1.04; }
 .hero h1 { color: #fffefb; }
-h2 { margin-bottom: 16px; font-size: clamp(30px, 4vw, 50px); line-height: 1.12; }
+h2 { margin-bottom: 16px; font-size: clamp(24px, 4vw, 44px); line-height: 1.18; }
 h3 { margin-bottom: 10px; font-size: 24px; line-height: 1.25; }
 
 .hero-copy {
@@ -474,9 +474,37 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
     box-shadow: 0 4px 16px var(--shadow);
   }
   .main-nav { display: none; }
+  .section-heading {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .section-heading .button {
+    width: 100%;
+  }
   .intro-grid, .catalog-layout, .reviews-grid, .contact-grid, .footer-inner, .admin-workspace, .admin-form-grid { grid-template-columns: 1fr; }
   .filters { position: static; }
   .product-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .section { padding: 48px 16px; }
+  .hero { padding: 100px 16px 56px; }
+  .catalog-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .cart-item {
+    grid-template-columns: 1fr 1fr auto;
+  }
+  .cart-item-title {
+    grid-column: 1 / -1;
+  }
+  .cart-item.no-volume {
+    grid-template-columns: 1fr auto;
+  }
 }
 
 /* Cookie banner (152-ФЗ) */
