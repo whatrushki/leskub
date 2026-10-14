@@ -27,7 +27,7 @@
     "checkingAccount": "40802810001500481713",
     "correspondentAccount": "30101810745374525104",
     "bik": "044525104",
-    "yandexMetrikaId": "364fb97a0d1eac95"
+    "yandexMetrikaId": ""
   },
   "products": [
     { "id": "p01", "type": "Доска", "size": "25*100*6000", "grade": "ГОСТ", "saw": "диск", "piecesPerM3": 66, "pricePerM3": 20000, "pricePerPiece": 303.03, "unitLabel": "шт", "priceCategory": "ГОСТ диск", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 0 },

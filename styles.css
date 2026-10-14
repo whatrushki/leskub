@@ -1,9 +1,49 @@
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&family=Playfair+Display:wght@400;500&family=Work+Sans:wght@400;500;600&display=swap");
+/* Локальные шрифты (без передачи данных в сторонние сервисы по 152-ФЗ) */
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('./assets/fonts/playfair-display-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('./assets/fonts/playfair-display-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./assets/fonts/ibm-plex-mono-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./assets/fonts/ibm-plex-mono-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Work Sans';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('./assets/fonts/work-sans-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 :root {
   --font-display: "Playfair Display", Georgia, serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
-  --font-body: "Work Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Work Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
   --accent: #de4c00;
   --accent-strong: #b73e00;
   --radius: 8px;
@@ -53,6 +93,7 @@ button { cursor: pointer; }
   border-radius: 30px;
   background: var(--header);
   box-shadow: 0 16px 40px var(--shadow);
+  -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
 }
 
@@ -144,10 +185,18 @@ button { cursor: pointer; }
 .hero::before { background: var(--hero-overlay); }
 .hero::after { background: var(--hero-fade); }
 
+.hero-bg-wrap,
 .hero-bg {
   position: absolute;
   inset: 0;
   z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.86);
+}
+
+.hero-bg-wrap img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -407,9 +456,77 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 .toast.success { background: #247238; color: #fff; }
 
 @media (max-width: 880px) {
-  .site-header { grid-template-columns: 1fr auto; }
+  .site-header {
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    transform: none;
+    border-radius: 0;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: max(10px, env(safe-area-inset-top, 0px)) 16px 10px;
+    grid-template-columns: 1fr auto;
+    box-shadow: 0 4px 16px var(--shadow);
+  }
   .main-nav { display: none; }
   .intro-grid, .catalog-layout, .reviews-grid, .contact-grid, .footer-inner, .admin-workspace, .admin-form-grid { grid-template-columns: 1fr; }
   .filters { position: static; }
   .product-grid { grid-template-columns: 1fr; }
+}
+
+/* Cookie banner (152-ФЗ) */
+.cookie-banner {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(140%);
+  z-index: 100;
+  width: min(760px, calc(100% - 32px));
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.22);
+  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1), opacity 320ms ease;
+  opacity: 0;
+  pointer-events: none;
+}
+.cookie-banner.is-visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.cookie-banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.cookie-banner-content p {
+  margin: 0;
+  color: var(--text);
+}
+.cookie-banner-content a {
+  color: var(--accent);
+  text-decoration: underline;
+  font-weight: 500;
+}
+.cookie-banner-btn {
+  flex-shrink: 0;
+  min-height: 38px;
+  padding: 8px 18px;
+  font-size: 14px;
+}
+@media (max-width: 640px) {
+  .cookie-banner-content {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: left;
+    gap: 12px;
+  }
 }

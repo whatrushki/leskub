@@ -32,11 +32,6 @@
   <meta property="og:image" content="https://leskub.ru/assets/hero-lumber.jpg" />
 
   <link rel="icon" type="image/png" href="./assets/logo.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&family=Playfair+Display:wght@400;500&family=Work+Sans:wght@400;500;600&display=swap"
-    rel="stylesheet" />
   <link rel="stylesheet" href="./styles.css" />
 
   <!-- Микроразметка Schema.org для поисковиков -->
@@ -95,7 +90,10 @@
 
   <main id="top">
     <section class="hero" aria-labelledby="hero-title">
-      <img class="hero-bg" src="./assets/hero-lumber.jpg" alt="" aria-hidden="true" />
+      <picture class="hero-bg-wrap">
+        <source srcset="./assets/hero-lumber.webp" type="image/webp" />
+        <img class="hero-bg" src="./assets/hero-lumber.jpg" alt="Пиломатериалы со склада в Тлюстенхабле" aria-hidden="true" fetchpriority="high" decoding="async" />
+      </picture>
       <div class="hero-content">
         <p class="eyebrow">Лес Куб — пиломатериалы в наличии</p>
         <h1 id="hero-title">Доска, брус и OSB для стройки с быстрым расчетом заказа</h1>
@@ -347,11 +345,11 @@
             Состав расчета
             <textarea id="orderSummary" rows="5" readonly></textarea>
           </label>
-          <label class="consent-row">
-            <input type="checkbox" id="consentCheckbox" checked required />
-            <span>Я даю согласие на <button type="button" id="openConsentBtn"
-                style="background:none;border:none;padding:0;color:var(--accent);text-decoration:underline;cursor:pointer;font:inherit;">обработку
-                персональных данных</button></span>
+          <label class="consent-row" style="cursor: pointer; align-items: flex-start; gap: 10px;">
+            <input type="checkbox" id="consentCheckbox" required style="margin-top: 4px;" />
+            <span style="font-size: 13px; line-height: 1.45;">
+              Нажимая кнопку отправки, я подтверждаю, что ознакомлен(а) с <a href="./privacy.html" target="_blank" style="color:var(--accent);text-decoration:underline;">Политикой обработки персональных данных</a>, и даю <button type="button" id="openConsentBtn" style="background:none;border:none;padding:0;color:var(--accent);text-decoration:underline;cursor:pointer;font:inherit;">согласие на обработку моих персональных данных</button>.
+            </span>
           </label>
 
           <!-- ДВЕ КНОПКИ ОТПРАВКИ -->
@@ -430,6 +428,13 @@
         </dl>
       </div>
     </div>
+    <div class="footer-bottom" style="width: min(1120px, calc(100% - 32px)); margin: 24px auto 0; padding-top: 16px; border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; font-size: 13px; color: var(--muted);">
+      <div>© 2026 Лес Куб. ИП Арутюнян А.Т. Все права защищены.</div>
+      <div style="display: flex; gap: 18px; flex-wrap: wrap;">
+        <a href="./privacy.html" style="text-decoration: underline; color: inherit;">Политика обработки персональных данных</a>
+        <button type="button" id="footerConsentBtn" style="background:none;border:none;padding:0;color:inherit;text-decoration:underline;cursor:pointer;font:inherit;">Согласие на обработку данных</button>
+      </div>
+    </div>
   </footer>
 
   <!-- Калькулятор / Мини-корзина -->
@@ -462,7 +467,7 @@
     </section>
   </div>
 
-  <!-- Модальное окно согласия -->
+  <!-- Модальное окно согласия (ФЗ-152) -->
   <div class="modal" id="consentModal" aria-hidden="true">
     <div class="modal-backdrop" id="closeConsentBackdrop"></div>
     <section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="consentTitle" tabindex="-1">
@@ -474,20 +479,35 @@
         <button class="icon-button" type="button" id="closeConsentBtn" aria-label="Закрыть">×</button>
       </div>
       <div
-        style="font-size: 14px; line-height: 1.5; display: grid; gap: 12px; max-height: 400px; overflow-y: auto; padding-right: 8px;">
-        <p>Настоящим в соответствии с Федеральным законом № 152-ФЗ «О персональных данных» я свободно, своей волей и в
-          своем интересе подтверждаю свое согласие на обработку Индивидуальным предпринимателем АРУТЮНЯНОМ АРУТЮНОМ
-          ТАДЕВОСОВИЧЕМ (ИП Арутюнян А.Т., ОГРНИП 323237500056120, ИНН 614319824644) моих персональных данных, указанных
-          при оформлении заявки на сайте.</p>
-        <p>Согласие предоставляется на обработку следующих персональных данных: имя, номер телефона, данные о составе
-          заказа, комментарии к заказу и иные сведения, предоставленные мной в формах обратной связи.</p>
-        <p>Целью обработки данных является подготовка предварительного коммерческого предложения, согласование объемов
-          материалов, уточнение логистики доставки, осуществление обратной связи.</p>
+        style="font-size: 14px; line-height: 1.55; display: grid; gap: 12px; max-height: 440px; overflow-y: auto; padding-right: 8px;">
+        <p>Настоящим в соответствии с Федеральным законом от 27.07.2006 № 152-ФЗ «О персональных данных» я свободно, своей волей и в своем интересе подтверждаю свое согласие на обработку <strong>Индивидуальным предпринимателем АРУТЮНЯНОМ АРУТЮНОМ ТАДЕВОСОВИЧЕМ</strong> (ОГРНИП 323237500056120, ИНН 614319824644, адрес: 350080, Краснодарский край, г. Краснодар, ул. Симферопольская, д. 58, кв. 85, далее — «Оператор») моих персональных данных, указанных при оформлении заявки на сайте https://leskub.ru/.</p>
+
+        <p><strong>1. Перечень персональных данных:</strong> имя (или обращение); контактный номер телефона; адрес электронной почты; адрес доставки (при указании); сведения о составе заказа и расчете материалов; комментарии и сообщения.</p>
+
+        <p><strong>2. Цели обработки:</strong> рассмотрение входящих заявок; расчет стоимости материалов и подготовка предварительного коммерческого предложения; консультирование по ассортименту; согласование условий поставки или самовывоза; осуществление обратной связи по указанному телефону, SMS или через мессенджер Telegram.</p>
+
+        <p><strong>3. Перечень действий с персональными данными:</strong> сбор, запись, систематизация, накопление, хранение, уточнение (обновление, изменение), извлечение, использование, передача привлеченным службам доставки исключительно для выполнения согласованного заказа, обезличивание, блокирование, удаление и уничтожение персональных данных как с использованием средств автоматизации, так и без них.</p>
+
+        <p><strong>4. Срок действия согласия:</strong> согласие вступает в силу с момента подтверждения и действует до достижения целей обработки либо до момента его отзыва субъектом персональных данных.</p>
+
+        <p><strong>5. Порядок отзыва согласия:</strong> согласие может быть отозвано в любое время путем направления письменного заявления на адрес электронной почты: <a href="mailto:leskub.online@yandex.ru" style="color:var(--accent);text-decoration:underline;">leskub.online@yandex.ru</a> с темой «Отзыв согласия на обработку персональных данных». Обработка прекращается в срок не более 10 рабочих дней в соответствии со ст. 21 152-ФЗ.</p>
+
+        <p>Полный порядок обработки и меры защиты персональных данных регламентированы <a href="./privacy.html" target="_blank" style="color:var(--accent);text-decoration:underline;">Политикой обработки персональных данных</a>.</p>
       </div>
       <div class="modal-actions">
-        <button class="button button-primary" type="button" id="agreeConsentBtn">Принимаю</button>
+        <button class="button button-primary" type="button" id="agreeConsentBtn">Принимаю условия</button>
       </div>
     </section>
+  </div>
+
+  <!-- Уведомление об использовании файлов Cookie (152-ФЗ) -->
+  <div class="cookie-banner" id="cookieBanner" role="region" aria-label="Уведомление об использовании cookie">
+    <div class="cookie-banner-content">
+      <p>
+        Мы используем файлы cookie и технические данные для обеспечения корректной работы сайта и расчета заказа. Продолжая просмотр сайта, вы соглашаетесь с <a href="./privacy.html">Политикой обработки персональных данных</a>.
+      </p>
+      <button class="button button-primary cookie-banner-btn" type="button" id="acceptCookieBtn">Понятно</button>
+    </div>
   </div>
 
   <script>
@@ -797,11 +817,13 @@
 
     function initConsentModal() {
       const modal = byId("consentModal");
-      byId("openConsentBtn")?.addEventListener("click", () => {
+      const open = () => {
         modal.classList.add("is-open");
         modal.setAttribute("aria-hidden", "false");
         document.body.classList.add("modal-open");
-      });
+      };
+      byId("openConsentBtn")?.addEventListener("click", open);
+      byId("footerConsentBtn")?.addEventListener("click", open);
       const close = () => {
         modal.classList.remove("is-open");
         modal.setAttribute("aria-hidden", "true");
@@ -816,12 +838,48 @@
       });
     }
 
+    function initCookieBanner() {
+      if (!localStorage.getItem("cookieConsentAccepted")) {
+        const banner = byId("cookieBanner");
+        if (banner) {
+          setTimeout(() => banner.classList.add("is-visible"), 600);
+        }
+      }
+      byId("acceptCookieBtn")?.addEventListener("click", () => {
+        localStorage.setItem("cookieConsentAccepted", "true");
+        byId("cookieBanner")?.classList.remove("is-visible");
+      });
+    }
+
     function closeConsentModal() {
       const modal = byId("consentModal");
       if (modal) {
         modal.classList.remove("is-open");
         modal.setAttribute("aria-hidden", "true");
         document.body.classList.remove("modal-open");
+      }
+    }
+
+    async function copyToClipboard(text) {
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text);
+          return true;
+        }
+      } catch (_) {}
+      try {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        const ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+        return ok;
+      } catch (_) {
+        return false;
       }
     }
 
@@ -836,8 +894,9 @@
       function validateAndGetPayload() {
         const consentCheckbox = byId("consentCheckbox");
         if (consentCheckbox && !consentCheckbox.checked) {
-          status.textContent = "Необходимо согласие на обработку персональных данных.";
+          status.textContent = "Необходимо подтвердить согласие на обработку персональных данных.";
           status.className = "form-status error";
+          consentCheckbox.focus();
           return null;
         }
 
@@ -865,31 +924,47 @@
       }
 
       // Отправка в Telegram
-      tgBtn?.addEventListener("click", () => {
+      tgBtn?.addEventListener("click", async () => {
         const payload = validateAndGetPayload();
         if (!payload) return;
 
-        const tgUsername = SITE_DATA.company?.telegramUsername || "79649199993";
-        const tgUrl = `https://t.me/${tgUsername.replace("@", "")}?text=${encodeURIComponent(payload.text)}`;
+        await copyToClipboard(payload.text);
 
-        status.textContent = "Перенаправляем в Telegram...";
-        status.className = "form-status success";
-        setTimeout(() => {
-          window.open(tgUrl, "_blank");
-        }, 350);
+        const rawTg = String(SITE_DATA.company?.telegramUsername || "79649199993").trim();
+        const cleanTg = rawTg.replace(/^@/, "");
+        const isPhone = /^\+?\d+$/.test(cleanTg);
+
+        if (isPhone) {
+          const phoneDigits = cleanTg.replace(/\D/g, "");
+          status.innerHTML = `Текст заявки скопирован в буфер! Открываем Telegram...<br><span style="font-size: 13px; font-weight: normal; opacity: 0.9;">Вставьте скопированный текст в чат (Ctrl+V или «Вставить»). Если диалог не открылся: <a href="tg://resolve?phone=${phoneDigits}" style="color: inherit; text-decoration: underline; font-weight: 600;">открыть чат вручную</a></span>`;
+          status.className = "form-status success";
+
+          setTimeout(() => {
+            window.location.href = `tg://resolve?phone=${phoneDigits}`;
+          }, 350);
+        } else {
+          const tgUrl = `https://t.me/${cleanTg}?text=${encodeURIComponent(payload.text)}`;
+          status.textContent = "Перенаправляем в Telegram...";
+          status.className = "form-status success";
+          setTimeout(() => {
+            window.open(tgUrl, "_blank");
+          }, 350);
+        }
       });
 
       // Отправка по Почте (mailto)
-      mailBtn?.addEventListener("click", () => {
+      mailBtn?.addEventListener("click", async () => {
         const payload = validateAndGetPayload();
         if (!payload) return;
+
+        await copyToClipboard(payload.text);
 
         const email = SITE_DATA.company?.email || "leskub.online@yandex.ru";
         const subject = encodeURIComponent(`Заявка на пиломатериалы — ${payload.name} (${payload.phone})`);
         const body = encodeURIComponent(payload.text);
         const mailUrl = `mailto:${email}?subject=${subject}&body=${body}`;
 
-        status.textContent = "Открываем почтовую программу...";
+        status.innerHTML = `Текст заявки скопирован! Открываем почтовую программу...<br><span style="font-size: 13px; font-weight: normal; opacity: 0.9;">Если почта не открылась, отправьте заявку на <b>${email}</b>.</span>`;
         status.className = "form-status success";
         setTimeout(() => {
           window.location.href = mailUrl;
@@ -899,6 +974,7 @@
 
     async function boot() {
       initConsentModal();
+      initCookieBanner();
       initReviews();
       initForm();
       initCartEvents();
