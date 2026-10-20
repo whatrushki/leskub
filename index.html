@@ -323,8 +323,7 @@
           <p class="eyebrow">Связаться с нами</p>
           <h2 id="contacts-title">Оставьте заявку — уточним наличие, объем и доставку</h2>
           <p class="muted">
-            Напишите, что строите и куда нужна отгрузка. Выберите удобный способ отправки: напрямую в Telegram или на
-            электронную почту.
+            Напишите, что строите и куда нужна отгрузка. Оставьте контакты, и мы перенаправим вас в Telegram для быстрого согласования заказа.
           </p>
         </div>
 
@@ -352,15 +351,9 @@
             </span>
           </label>
 
-          <!-- ДВЕ КНОПКИ ОТПРАВКИ -->
-          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-            <button class="button button-primary" type="button" id="sendTelegramBtn" style="flex: 1; min-width: 190px;">
-              Отправить в Telegram
-            </button>
-            <button class="button button-secondary" type="button" id="sendEmailBtn" style="flex: 1; min-width: 190px;">
-              Отправить на почту
-            </button>
-          </div>
+          <button class="button button-primary" type="submit" id="sendTelegramBtn" style="width: 100%;">
+            Отправить заявку в Telegram
+          </button>
 
           <p class="form-status" id="formStatus" role="status"></p>
         </form>
@@ -883,12 +876,11 @@
       }
     }
 
-    // ЛОГИКА ОТПРАВКИ В TELEGRAM И ПО ПОЧТЕ
+    // ЛОГИКА ОТПРАВКИ В TELEGRAM
     function initForm() {
       const form = byId("leadForm");
       const status = byId("formStatus");
       const tgBtn = byId("sendTelegramBtn");
-      const mailBtn = byId("sendEmailBtn");
       if (!form) return;
 
       function validateAndGetPayload() {
@@ -923,53 +915,30 @@
         return { name, phone, text };
       }
 
-      // Отправка в Telegram
-      tgBtn?.addEventListener("click", async () => {
+      async function submitToTelegram(e) {
+        if (e) e.preventDefault();
         const payload = validateAndGetPayload();
         if (!payload) return;
 
         await copyToClipboard(payload.text);
 
-        const rawTg = String(SITE_DATA.company?.telegramUsername || "79649199993").trim();
-        const cleanTg = rawTg.replace(/^@/, "");
+        const rawTg = String(SITE_DATA.company?.telegramUsername || "leskub_shop").trim();
+        const cleanTg = rawTg.replace(/^@/, "") || "leskub_shop";
         const isPhone = /^\+?\d+$/.test(cleanTg);
+        const tgUrl = isPhone
+          ? `https://t.me/+${cleanTg.replace(/\D/g, "")}?text=${encodeURIComponent(payload.text)}`
+          : `https://t.me/${cleanTg}?text=${encodeURIComponent(payload.text)}`;
 
-        if (isPhone) {
-          const phoneDigits = cleanTg.replace(/\D/g, "");
-          status.innerHTML = `Текст заявки скопирован в буфер! Открываем Telegram...<br><span style="font-size: 13px; font-weight: normal; opacity: 0.9;">Вставьте скопированный текст в чат (Ctrl+V или «Вставить»). Если диалог не открылся: <a href="tg://resolve?phone=${phoneDigits}" style="color: inherit; text-decoration: underline; font-weight: 600;">открыть чат вручную</a></span>`;
-          status.className = "form-status success";
-
-          setTimeout(() => {
-            window.location.href = `tg://resolve?phone=${phoneDigits}`;
-          }, 350);
-        } else {
-          const tgUrl = `https://t.me/${cleanTg}?text=${encodeURIComponent(payload.text)}`;
-          status.textContent = "Перенаправляем в Telegram...";
-          status.className = "form-status success";
-          setTimeout(() => {
-            window.open(tgUrl, "_blank");
-          }, 350);
-        }
-      });
-
-      // Отправка по Почте (mailto)
-      mailBtn?.addEventListener("click", async () => {
-        const payload = validateAndGetPayload();
-        if (!payload) return;
-
-        await copyToClipboard(payload.text);
-
-        const email = SITE_DATA.company?.email || "leskub.online@yandex.ru";
-        const subject = encodeURIComponent(`Заявка на пиломатериалы — ${payload.name} (${payload.phone})`);
-        const body = encodeURIComponent(payload.text);
-        const mailUrl = `mailto:${email}?subject=${subject}&body=${body}`;
-
-        status.innerHTML = `Текст заявки скопирован! Открываем почтовую программу...<br><span style="font-size: 13px; font-weight: normal; opacity: 0.9;">Если почта не открылась, отправьте заявку на <b>${email}</b>.</span>`;
+        status.innerHTML = `Заявка сформирована и скопирована! Открываем Telegram...<br><span style="font-size: 13px; font-weight: normal; opacity: 0.9;">Если диалог не открылся автоматически: <a href="${tgUrl}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; font-weight: 600;">открыть чат @${cleanTg} вручную</a></span>`;
         status.className = "form-status success";
+
         setTimeout(() => {
-          window.location.href = mailUrl;
-        }, 350);
-      });
+          window.location.href = tgUrl;
+        }, 250);
+      }
+
+      form.addEventListener("submit", submitToTelegram);
+      tgBtn?.addEventListener("click", submitToTelegram);
     }
 
     async function boot() {
