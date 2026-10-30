@@ -369,7 +369,7 @@
           <textarea id="orderSummary" rows="2" readonly style="display:none;"></textarea>
           <label class="consent-row">
             <input type="checkbox" id="consentCheckbox" required />
-            <span>Согласен(на) на <button type="button" id="openConsentBtn">обработку персональных данных</button></span>
+            <span>Согласен(на) на <a href="./privacy.html" id="openConsentBtn" class="consent-link" style="color:var(--accent);text-decoration:underline;cursor:pointer;">обработку персональных данных</a></span>
           </label>
 
           <button class="button button-primary" type="submit" id="sendTelegramBtn" style="width: 100%;">
@@ -446,7 +446,7 @@
       <div>© 2026 Лес Куб. ИП Арутюнян А.Т. Все права защищены.</div>
       <div style="display: flex; gap: 18px; flex-wrap: wrap;">
         <a href="./privacy.html" style="text-decoration: underline; color: inherit;">Политика обработки персональных данных</a>
-        <button type="button" id="footerConsentBtn" style="background:none;border:none;padding:0;color:inherit;text-decoration:underline;cursor:pointer;font:inherit;">Согласие на обработку данных</button>
+        <a href="./privacy.html" id="footerConsentBtn" class="consent-link" style="color:inherit;text-decoration:underline;cursor:pointer;">Согласие на обработку данных</a>
       </div>
     </div>
   </footer>
@@ -1441,7 +1441,11 @@
 
     function initConsentModal() {
       const modal = byId("consentModal");
-      const open = () => {
+      const open = (e) => {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
         modal.classList.add("is-open");
         modal.setAttribute("aria-hidden", "false");
         document.body.classList.add("modal-open");
