@@ -320,7 +320,9 @@
           </div>
         </div>
         <div class="review-carousel" aria-roledescription="carousel">
-          <div class="review-card" id="reviewCard" aria-live="polite"></div>
+          <div class="review-track-wrapper" id="reviewTrackWrapper">
+            <div class="review-track" id="reviewTrack" aria-live="polite"></div>
+          </div>
           <div class="carousel-controls">
             <button class="icon-button" type="button" id="prevReview" aria-label="Предыдущий отзыв">‹</button>
             <div class="review-dots" id="reviewDots" aria-label="Навигация по отзывам"></div>
@@ -544,7 +546,7 @@
           SITE_DATA = await res.json();
           if (SITE_DATA.reviews && SITE_DATA.reviews.length) {
             REVIEWS = SITE_DATA.reviews;
-            renderReview();
+            renderReviewSlides();
             startReviewAutoPlay();
           }
           if (SITE_DATA.products && SITE_DATA.products.length) {
@@ -858,12 +860,64 @@
 
     let reviewTimer = null;
 
+    function renderReviewSlides() {
+      const track = byId("reviewTrack");
+      const dotsContainer = byId("reviewDots");
+      if (!track || !REVIEWS.length) return;
+
+      track.innerHTML = REVIEWS.map((r, i) => {
+        const stars = "★".repeat(r.rating || 5);
+        const meta = [r.badge || r.role, r.date].filter(Boolean).join(" · ");
+        return `
+          <article class="review-slide" aria-roledescription="slide" aria-label="Отзыв ${i + 1} из ${REVIEWS.length}">
+            <div class="review-stars" aria-label="Оценка: ${r.rating || 5} из 5">${stars}</div>
+            <blockquote>«${r.text}»</blockquote>
+            <div class="review-footer">
+              <div>
+                <cite>${r.author}</cite>
+                ${meta ? `<small>${meta}</small>` : ""}
+              </div>
+              <span class="review-yandex-tag">Яндекс Карты</span>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      if (dotsContainer) {
+        dotsContainer.innerHTML = REVIEWS.map((_, i) => `<button class="review-dot ${i === state.reviewIndex ? "active" : ""}" type="button" data-review-index="${i}" aria-label="Отзыв ${i + 1}"></button>`).join("");
+        dotsContainer.querySelectorAll("[data-review-index]").forEach((b) => {
+          b.addEventListener("click", () => {
+            goToReview(Number(b.dataset.reviewIndex));
+            startReviewAutoPlay();
+          });
+        });
+      }
+
+      updateReviewCarousel();
+    }
+
+    function goToReview(index) {
+      if (!REVIEWS.length) return;
+      state.reviewIndex = (index + REVIEWS.length) % REVIEWS.length;
+      updateReviewCarousel();
+    }
+
+    function updateReviewCarousel() {
+      const track = byId("reviewTrack");
+      if (track) {
+        track.style.transform = `translateX(-${state.reviewIndex * 100}%)`;
+      }
+      const dots = document.querySelectorAll("#reviewDots .review-dot");
+      dots.forEach((dot, idx) => {
+        dot.classList.toggle("active", idx === state.reviewIndex);
+      });
+    }
+
     function startReviewAutoPlay() {
       stopReviewAutoPlay();
       if (!REVIEWS || REVIEWS.length <= 1) return;
       reviewTimer = setInterval(() => {
-        state.reviewIndex = (state.reviewIndex + 1) % REVIEWS.length;
-        renderReview();
+        goToReview(state.reviewIndex + 1);
       }, 4000);
     }
 
@@ -877,25 +931,50 @@
     function initReviews() {
       const prev = byId("prevReview");
       const next = byId("nextReview");
-      const carousel = document.querySelector(".review-carousel");
+      const wrapper = byId("reviewTrackWrapper") || document.querySelector(".review-carousel");
 
       prev?.addEventListener("click", () => {
-        state.reviewIndex = (state.reviewIndex - 1 + REVIEWS.length) % REVIEWS.length;
-        renderReview();
+        goToReview(state.reviewIndex - 1);
         startReviewAutoPlay();
       });
       next?.addEventListener("click", () => {
-        state.reviewIndex = (state.reviewIndex + 1) % REVIEWS.length;
-        renderReview();
+        goToReview(state.reviewIndex + 1);
         startReviewAutoPlay();
       });
 
-      if (carousel) {
-        carousel.addEventListener("mouseenter", stopReviewAutoPlay);
-        carousel.addEventListener("mouseleave", startReviewAutoPlay);
-        carousel.addEventListener("touchstart", stopReviewAutoPlay, { passive: true });
-        carousel.addEventListener("touchend", () => {
-          setTimeout(startReviewAutoPlay, 2000);
+      if (wrapper) {
+        wrapper.addEventListener("mouseenter", stopReviewAutoPlay);
+        wrapper.addEventListener("mouseleave", startReviewAutoPlay);
+
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let isTouching = false;
+
+        wrapper.addEventListener("touchstart", (e) => {
+          stopReviewAutoPlay();
+          if (e.touches && e.touches.length === 1) {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+            isTouching = true;
+          }
+        }, { passive: true });
+
+        wrapper.addEventListener("touchend", (e) => {
+          if (!isTouching) return;
+          isTouching = false;
+          const touchEndX = e.changedTouches[0].clientX;
+          const touchEndY = e.changedTouches[0].clientY;
+          const dx = touchEndX - touchStartX;
+          const dy = touchEndY - touchStartY;
+
+          if (Math.abs(dx) > 35 && Math.abs(dx) > Math.abs(dy)) {
+            if (dx < 0) {
+              goToReview(state.reviewIndex + 1);
+            } else {
+              goToReview(state.reviewIndex - 1);
+            }
+          }
+          setTimeout(startReviewAutoPlay, 2500);
         }, { passive: true });
       }
 
@@ -907,35 +986,11 @@
         }
       });
 
-      renderReview();
+      renderReviewSlides();
       startReviewAutoPlay();
     }
 
-    function renderReview() {
-      if (!byId("reviewCard") || !REVIEWS.length) return;
-      const r = REVIEWS[state.reviewIndex];
-      const stars = "★".repeat(r.rating || 5);
-      const meta = [r.badge || r.role, r.date].filter(Boolean).join(" · ");
-      byId("reviewCard").innerHTML = `
-        <div class="review-stars" aria-label="Оценка: 5 из 5">${stars}</div>
-        <blockquote>«${r.text}»</blockquote>
-        <div class="review-footer">
-          <div>
-            <cite>${r.author}</cite>
-            ${meta ? `<small>${meta}</small>` : ""}
-          </div>
-          <span class="review-yandex-tag">Яндекс Карты</span>
-        </div>
-      `;
-      byId("reviewDots").innerHTML = REVIEWS.map((_, i) => `<button class="review-dot ${i === state.reviewIndex ? "active" : ""}" type="button" data-review-index="${i}" aria-label="Отзыв ${i + 1}"></button>`).join("");
-      document.querySelectorAll("[data-review-index]").forEach((b) => {
-        b.addEventListener("click", () => {
-          state.reviewIndex = Number(b.dataset.reviewIndex);
-          renderReview();
-          startReviewAutoPlay();
-        });
-      });
-    }
+    const renderReview = renderReviewSlides;
 
     function initConsentModal() {
       const modal = byId("consentModal");
