@@ -310,8 +310,14 @@
           <p class="eyebrow">Отзывы клиентов</p>
           <h2 id="reviews-title">Помогаем закрыть заказ без лишних звонков</h2>
           <p class="muted">
-            Подскажем по сорту, распилу и объему, чтобы вы сразу понимали количество материала и бюджет.
+            Реальные оценки и отзывы покупателей на Яндекс Картах. Подскажем по сорту, распилу и объему, чтобы вы сразу понимали количество материала и бюджет.
           </p>
+          <div style="margin-top: 20px;">
+            <a class="button button-secondary" href="https://yandex.ru/maps/org/131079384195/reviews/" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; font-size: 14px;">
+              <span>Отзывы на Яндекс Картах 5.0 ★</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
         </div>
         <div class="review-carousel" aria-roledescription="carousel">
           <div class="review-card" id="reviewCard" aria-live="polite"></div>
@@ -518,10 +524,12 @@
     const filterLabels = { type: "Все типы", size: "Все размеры", grade: "Все сорта", saw: "Любой распил" };
     const state = { filters: { type: "all", size: "all", grade: "all", saw: "all" }, cart: [], reviewIndex: 0, catalogExpanded: false };
 
-    const REVIEWS = [
-      { text: "Берём материал уже не первый раз. Размеры соответствуют, по наличию отвечают быстро. Удобно, что можно сразу получить расчет по количеству и стоимости.", author: "Сергей", role: "прораб" },
-      { text: "Нужна была сухая доска для внутренней отделки. Подобрали нужный сорт, помогли с погрузкой. Материал нормальный, без неприятных сюрпризов.", author: "Игорь", role: "монтажник каркасных домов" },
-      { text: "Заказывал доску на крышу и брус на перекрытие. Помогли посчитать объем, лишнего не навязывали.", author: "Андрей", role: "частный застройщик" },
+    let REVIEWS = [
+      { text: "Хорошее качество, хорошая цена. Часто здесь покупаю доску. Вежливый персонал.", author: "Руслан Баранов", badge: "Знаток города 4 уровня", rating: 5, date: "15 октября" },
+      { text: "Рекомендую данную базу пиломатериалов. Вежливый персонал и всегда свежий лес в наличии.", author: "Boglovshop", badge: "Знаток города 2 уровня", rating: 5, date: "9 апреля" },
+      { text: "Хорошая логистика и доска)) все понятно и доступно, коммуникабельный и отзывчивый специалист, было приятно работать, спасибо 👍", author: "Алина Федоренко", badge: "Знаток города 4 уровня", rating: 5, date: "6 апреля" },
+      { text: "Спасибо за оперативность, все отлично, спасибо 🙏", author: "Андрей Данилов", badge: "Знаток города 15 уровня", rating: 5, date: "6 апреля" },
+      { text: "Хороший лес, хорошая цена, хороший человек! Что ещё нужно чтобы купить доску?", author: "Timon", badge: "Знаток города 9 уровня", rating: 5, date: "28 марта 2023" }
     ];
 
     const byId = (id) => document.getElementById(id);
@@ -534,6 +542,10 @@
         const res = await fetch("./data.json");
         if (res.ok) {
           SITE_DATA = await res.json();
+          if (SITE_DATA.reviews && SITE_DATA.reviews.length) {
+            REVIEWS = SITE_DATA.reviews;
+            renderReview();
+          }
           if (SITE_DATA.products && SITE_DATA.products.length) {
             PRODUCTS = SITE_DATA.products.filter(p => p.isActive !== false);
             renderCatalog();
@@ -856,10 +868,22 @@
     }
 
     function renderReview() {
-      if (!byId("reviewCard")) return;
+      if (!byId("reviewCard") || !REVIEWS.length) return;
       const r = REVIEWS[state.reviewIndex];
-      byId("reviewCard").innerHTML = `<blockquote>«${r.text}»</blockquote><cite>${r.author}</cite><small>${r.role}</small>`;
-      byId("reviewDots").innerHTML = REVIEWS.map((_, i) => `<button class="review-dot ${i === state.reviewIndex ? "active" : ""}" type="button" data-review-index="${i}"></button>`).join("");
+      const stars = "★".repeat(r.rating || 5);
+      const meta = [r.badge || r.role, r.date].filter(Boolean).join(" · ");
+      byId("reviewCard").innerHTML = `
+        <div class="review-stars" aria-label="Оценка: 5 из 5">${stars}</div>
+        <blockquote>«${r.text}»</blockquote>
+        <div class="review-footer">
+          <div>
+            <cite>${r.author}</cite>
+            ${meta ? `<small>${meta}</small>` : ""}
+          </div>
+          <span class="review-yandex-tag">Яндекс Карты</span>
+        </div>
+      `;
+      byId("reviewDots").innerHTML = REVIEWS.map((_, i) => `<button class="review-dot ${i === state.reviewIndex ? "active" : ""}" type="button" data-review-index="${i}" aria-label="Отзыв ${i + 1}"></button>`).join("");
       document.querySelectorAll("[data-review-index]").forEach((b) => {
         b.addEventListener("click", () => {
           state.reviewIndex = Number(b.dataset.reviewIndex);

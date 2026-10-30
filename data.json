@@ -27,7 +27,9 @@
     "checkingAccount": "40802810001500481713",
     "correspondentAccount": "30101810745374525104",
     "bik": "044525104",
-    "yandexMetrikaId": ""
+    "yandexMetrikaId": "",
+    "yandexOrgId": "131079384195",
+    "yandexMapsUrl": "https://yandex.ru/maps/org/131079384195/reviews/"
   },
   "products": [
     { "id": "p01", "type": "Доска", "size": "25*100*6000", "grade": "ГОСТ", "saw": "диск", "piecesPerM3": 66, "pricePerM3": 20000, "pricePerPiece": 303.03, "unitLabel": "шт", "priceCategory": "ГОСТ диск", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 0 },
@@ -64,5 +66,42 @@
     { "id": "p32", "type": "Плита OSB", "size": "Плита OSB 15", "grade": "", "saw": "", "piecesPerM3": 1, "pricePerM3": null, "pricePerPiece": 1200, "unitLabel": "лист", "priceCategory": "лист", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 31 },
     { "id": "p33", "type": "Огнебиозащита", "size": "Огнебиозащита", "grade": "20 л", "saw": "", "piecesPerM3": 1, "pricePerM3": null, "pricePerPiece": 1000, "unitLabel": "канистра", "priceCategory": "20 л", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 32 },
     { "id": "p34", "type": "Парогидроизоляция", "size": "Парогидроизоляция", "grade": "", "saw": "", "piecesPerM3": 1, "pricePerM3": null, "pricePerPiece": 900, "unitLabel": "рулон", "priceCategory": "рулон", "image": "./assets/hero-lumber.jpg", "isActive": true, "sortOrder": 33 }
+  ],
+  "reviews": [
+    {
+      "author": "Руслан Баранов",
+      "badge": "Знаток города 4 уровня",
+      "date": "15 октября",
+      "rating": 5,
+      "text": "Хорошее качество, хорошая цена. Часто здесь покупаю доску. Вежливый персонал."
+    },
+    {
+      "author": "Boglovshop",
+      "badge": "Знаток города 2 уровня",
+      "date": "9 апреля",
+      "rating": 5,
+      "text": "Рекомендую данную базу пиломатериалов. Вежливый персонал и всегда свежий лес в наличии."
+    },
+    {
+      "author": "Алина Федоренко",
+      "badge": "Знаток города 4 уровня",
+      "date": "6 апреля",
+      "rating": 5,
+      "text": "Хорошая логистика и доска)) все понятно и доступно, коммуникабельный и отзывчивый специалист, было приятно работать, спасибо 👍"
+    },
+    {
+      "author": "Андрей Данилов",
+      "badge": "Знаток города 15 уровня",
+      "date": "6 апреля",
+      "rating": 5,
+      "text": "Спасибо за оперативность, все отлично, спасибо 🙏"
+    },
+    {
+      "author": "Timon",
+      "badge": "Знаток города 9 уровня",
+      "date": "28 марта 2023",
+      "rating": 5,
+      "text": "Хороший лес, хорошая цена, хороший человек! Что ещё нужно чтобы купить доску?"
+    }
   ]
 }
