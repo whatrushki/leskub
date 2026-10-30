@@ -1102,7 +1102,7 @@
     }
 
     function orderSummaryText() {
-      if (!state.cart.length) return "Позиции в калькуляторе не выбраны (запрос на общую консультацию).";
+      if (!state.cart.length) return "Позиции в расчете не выбраны (подскажите, пожалуйста, по наличию и ценам).";
       const lines = state.cart.map((item, idx) => {
         const p = PRODUCTS.find((entry) => entry.id === item.productId);
         if (!p) return "";
@@ -1117,7 +1117,7 @@
       const vehicle = getVehicleRecommendation(weight);
 
       lines.push(`---------------------------------`);
-      lines.push(`Итого к оплате: ${money(cartTotal())}`);
+      lines.push(`Итого: ${money(cartTotal())}`);
       if (totalVol > 0) {
         lines.push(`Общий объем: ${totalVol.toFixed(3)} м³`);
       }
@@ -1528,11 +1528,11 @@
         }
 
         const text = [
-          `🌲 Заявка с сайта Лес Куб`,
-          `👤 Имя: ${name}`,
+          `Здравствуйте! Хочу сделать заказ.`,
+          `👤 Меня зовут: ${name}`,
           `📞 Телефон: ${phone}`,
-          message ? `💬 Сообщение: ${message}` : "",
-          `📦 Состав расчета:\n${summary}`
+          message ? `💬 Комментарий: ${message}` : "",
+          `📦 Что нужно по заказу:\n${summary}`
         ].filter(Boolean).join("\n\n");
 
         return { name, phone, text };
