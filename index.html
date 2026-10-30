@@ -138,7 +138,7 @@
             <p class="eyebrow">Каталог и цены</p>
             <h2 id="catalog-title">Прайс с расчетом по каждой позиции</h2>
           </div>
-          <button class="button button-primary" type="button" data-open-calculator>
+          <button class="button button-primary" type="button" data-open-calculator id="catalogCartBtn">
             Открыть расчет <span class="cart-pill-badge" id="catalogCartBadge" style="display:none;">0</span>
           </button>
         </div>
@@ -353,25 +353,23 @@
           </label>
           <label>
             Сообщение
-            <textarea name="message" rows="4" placeholder="Например: нужна доставка на участок"></textarea>
+            <textarea name="message" rows="2" placeholder="Например: доставка в Адыгею или вопрос по объему"></textarea>
           </label>
-          <div class="form-order-card" id="formOrderCard">
+          <div class="form-order-card" id="formOrderCard" style="display: none;">
             <div class="form-order-header">
               <span class="eyebrow" style="margin:0;">Состав заявки</span>
               <button type="button" class="form-order-edit-btn" data-open-calculator>Изменить расчет ✎</button>
             </div>
-            <div class="form-order-items" id="formOrderItemsPreview">Позиции пока не выбраны</div>
+            <div class="form-order-items" id="formOrderItemsPreview"></div>
             <div class="form-order-footer">
               <span id="formOrderMetaPreview">0 поз. · 0.00 м³</span>
               <strong id="formOrderTotalPreview">0 ₽</strong>
             </div>
           </div>
-          <textarea id="orderSummary" rows="4" readonly style="display:none;"></textarea>
-          <label class="consent-row" style="cursor: pointer; align-items: flex-start; gap: 10px;">
-            <input type="checkbox" id="consentCheckbox" required style="margin-top: 4px;" />
-            <span style="font-size: 13px; line-height: 1.45;">
-              Нажимая кнопку отправки, я подтверждаю, что ознакомлен(а) с <a href="./privacy.html" target="_blank" style="color:var(--accent);text-decoration:underline;">Политикой обработки персональных данных</a>, и даю <button type="button" id="openConsentBtn" style="background:none;border:none;padding:0;color:var(--accent);text-decoration:underline;cursor:pointer;font:inherit;">согласие на обработку моих персональных данных</button>.
-            </span>
+          <textarea id="orderSummary" rows="2" readonly style="display:none;"></textarea>
+          <label class="consent-row">
+            <input type="checkbox" id="consentCheckbox" required />
+            <span>Согласен(на) на <button type="button" id="openConsentBtn">обработку персональных данных</button></span>
           </label>
 
           <button class="button button-primary" type="submit" id="sendTelegramBtn" style="width: 100%;">
@@ -1042,7 +1040,12 @@
         }
       }
 
-      // Обновляем бейджи в шапке и каталоге
+      // Обновляем бейджи в шапке и каталоге, а также скрываем кнопку в каталоге если корзина не пустая
+      const catalogBtn = byId("catalogCartBtn");
+      if (catalogBtn) {
+        catalogBtn.style.display = state.cart.length > 0 ? "none" : "";
+      }
+
       const headerBadge = byId("headerCartBadge");
       if (headerBadge) {
         if (state.cart.length > 0) {
@@ -1068,13 +1071,18 @@
     }
 
     function updateFormOrderPreview() {
+      const card = byId("formOrderCard");
+      if (card) {
+        card.style.display = state.cart.length > 0 ? "grid" : "none";
+      }
+
       const itemsContainer = byId("formOrderItemsPreview");
       const metaContainer = byId("formOrderMetaPreview");
       const totalContainer = byId("formOrderTotalPreview");
       if (!itemsContainer) return;
 
       if (!state.cart.length) {
-        itemsContainer.innerHTML = `<span class="muted">Позиции пока не выбраны. Вы можете подобрать пиломатериалы в каталоге или просто отправить контакты.</span>`;
+        itemsContainer.innerHTML = "";
         if (metaContainer) metaContainer.textContent = "0 поз. · 0.00 м³";
         if (totalContainer) totalContainer.textContent = "0 ₽";
         return;
