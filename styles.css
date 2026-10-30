@@ -514,26 +514,40 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
   top: 50%;
   left: 50%;
   width: min(920px, calc(100% - 28px));
-  max-height: min(86vh, 820px);
-  overflow: auto;
+  height: min(88vh, 840px);
+  max-height: min(88vh, 840px);
   padding: 24px;
   transform: translate(-50%, -50%);
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--surface);
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.52);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .modal-panel,
-.consent-scroll-body {
+.consent-scroll-body,
+.calc-view {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 .modal-panel::-webkit-scrollbar,
-.consent-scroll-body::-webkit-scrollbar {
+.consent-scroll-body::-webkit-scrollbar,
+.calc-view::-webkit-scrollbar {
   display: none;
   width: 0;
   height: 0;
+}
+
+.calc-view {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Бейджи корзины */
@@ -602,7 +616,19 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
   width: 0;
   height: 0;
 }
-.empty-cart { padding: 32px 20px; border: 1px dashed var(--border); border-radius: 10px; color: var(--muted); text-align: center; font-size: 14px; }
+.empty-cart {
+  padding: 32px 20px;
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  color: var(--muted);
+  text-align: center;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  flex: 1 0 auto;
+}
 
 .cart-item {
   display: flex;
@@ -982,9 +1008,20 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 }
 
 .modal-header, .modal-actions { display: flex; align-items: center; gap: 16px; }
-.modal-header { justify-content: space-between; margin-bottom: 20px; }
+.modal-header { justify-content: space-between; margin-bottom: 20px; flex-shrink: 0; }
 .modal-header h2 { margin: 0; }
-.modal-actions { justify-content: flex-end; flex-wrap: wrap; margin-top: 20px; }
+.modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+  background: var(--surface);
+}
 
 /* Стили конструктора */
 .admin-body { min-height: 100vh; padding: 12px; }
@@ -1102,35 +1139,28 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
   }
   .modal-panel {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     width: 100%;
-    height: 100%;
+    height: 100dvh;
     min-height: 100dvh;
     max-height: 100dvh;
     transform: none;
     border: none;
     border-radius: 0;
-    padding: 14px 14px 20px;
+    padding: 14px 14px max(14px, env(safe-area-inset-bottom, 14px));
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: hidden;
     box-shadow: none;
   }
 
   .modal-header {
-    position: sticky;
-    top: -14px;
-    background: var(--surface);
-    z-index: 15;
-    padding: 10px 0 8px;
-    margin-top: -14px;
-    margin-bottom: 10px;
+    flex-shrink: 0;
+    padding: 0 0 10px;
+    margin: 0 0 10px 0;
     border-bottom: 1px solid var(--border);
+    position: static;
   }
   .modal-header h2 {
     font-size: 18px;
@@ -1141,8 +1171,9 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
   }
 
   .calc-tabs {
+    flex-shrink: 0;
     gap: 6px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     padding-bottom: 6px;
   }
   .calc-tab {
@@ -1151,10 +1182,28 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
     font-weight: 600;
   }
 
+  .calc-view {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+  }
+
+  .consent-scroll-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    max-height: none !important;
+  }
+
   .cart-list {
     max-height: none;
     gap: 10px;
     padding-right: 0;
+    overflow: visible;
   }
 
   .cart-item {
@@ -1231,11 +1280,12 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
   }
 
   .cart-summary-box {
-    margin-top: 12px;
+    margin-top: 14px;
     padding: 12px;
     gap: 6px;
     font-size: 13px;
     border-radius: 8px;
+    flex-shrink: 0;
   }
   .cart-vehicle-tip {
     padding: 6px 10px;
@@ -1249,21 +1299,20 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
   }
 
   .modal-actions {
-    position: sticky;
-    bottom: -20px;
-    background: var(--surface);
-    z-index: 15;
-    padding: 10px 0;
-    margin-top: 14px;
-    margin-bottom: -20px;
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 10px 0 0;
+    margin-bottom: 0;
     border-top: 1px solid var(--border);
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 8px;
+    background: var(--surface);
+    position: static;
   }
   .modal-actions .button {
     width: 100%;
-    padding: 10px 10px;
+    padding: 11px 10px;
     font-size: 13px;
     text-align: center;
     justify-content: center;
