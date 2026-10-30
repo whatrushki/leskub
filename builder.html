@@ -382,7 +382,7 @@
         }).join("\n");
 
         // Вставляем сгенерированные карточки в контейнер #productGrid
-        html = html.replace(/<div class="product-grid" id="productGrid" aria-live="polite">[\s\S]*?<\/div>/, `<div class="product-grid" id="productGrid" aria-live="polite">\n${cardsHtml}\n              </div>`);
+        html = html.replace(/<div class="product-grid[^"]*" id="productGrid" aria-live="polite">[\s\S]*?<\/div>/, `<div class="product-grid is-collapsed" id="productGrid" aria-live="polite">\n${cardsHtml}\n              </div>`);
 
         const blob = new Blob([html], {type: "text/html"});
         const url = URL.createObjectURL(blob);

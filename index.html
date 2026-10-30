@@ -172,7 +172,7 @@
               <div class="view-note">Фильтры показывают только доступные сочетания.</div>
             </div>
 
-            <div class="product-grid" id="productGrid" aria-live="polite">
+            <div class="product-grid is-collapsed" id="productGrid" aria-live="polite">
               <article class="product-card">
                 <div class="product-image" style="--product-image: url('./assets/hero-lumber.jpg')"><span
                     class="product-type-badge">Доска</span></div>
@@ -291,6 +291,14 @@
                   <button class="button button-primary" type="button" data-add-product="p30">Добавить в расчет</button>
                 </div>
               </article>
+            </div>
+
+            <div class="catalog-more-wrap" id="catalogMoreWrap">
+              <button class="button button-secondary catalog-toggle-btn" type="button" id="catalogToggleBtn">
+                <span id="catalogToggleText">Смотреть весь каталог</span>
+                <span class="catalog-toggle-icon" id="catalogToggleIcon" aria-hidden="true">↓</span>
+              </button>
+              <p class="catalog-more-hint" id="catalogMoreHint">Показано 6 из 34 позиций</p>
             </div>
           </div>
         </div>
@@ -509,7 +517,7 @@
     const timberTypes = new Set(["Доска", "Брус", "Брусок"]);
     const filterKeys = ["type", "size", "grade", "saw"];
     const filterLabels = { type: "Все типы", size: "Все размеры", grade: "Все сорта", saw: "Любой распил" };
-    const state = { filters: { type: "all", size: "all", grade: "all", saw: "all" }, cart: [], reviewIndex: 0 };
+    const state = { filters: { type: "all", size: "all", grade: "all", saw: "all" }, cart: [], reviewIndex: 0, catalogExpanded: false };
 
     const REVIEWS = [
       { text: "Берём материал уже не первый раз. Размеры соответствуют, по наличию отвечают быстро. Удобно, что можно сразу получить расчет по количеству и стоимости.", author: "Сергей", role: "прораб" },
@@ -589,12 +597,14 @@
       filterKeys.forEach((k) => {
         byId(`${k}Filter`).addEventListener("change", (e) => {
           state.filters[k] = e.target.value;
+          state.catalogExpanded = false;
           refreshFilterOptions();
           renderCatalog();
         });
       });
       byId("resetFilters").addEventListener("click", () => {
         state.filters = { type: "all", size: "all", grade: "all", saw: "all" };
+        state.catalogExpanded = false;
         refreshFilterOptions();
         renderCatalog();
       });
@@ -607,12 +617,67 @@
       return variants[2];
     }
 
+    function getCatalogLimit() {
+      return window.innerWidth <= 880 ? 3 : 6;
+    }
+
+    function updateCatalogVisibility() {
+      const grid = byId("productGrid");
+      const wrap = byId("catalogMoreWrap");
+      const btnText = byId("catalogToggleText");
+      const btnIcon = byId("catalogToggleIcon");
+      const hint = byId("catalogMoreHint");
+      if (!grid || !wrap) return;
+
+      const items = productsByFilters();
+      const total = items.length;
+      const limit = getCatalogLimit();
+
+      if (total <= limit) {
+        wrap.style.display = "none";
+        grid.classList.remove("is-collapsed");
+        return;
+      }
+
+      wrap.style.display = "flex";
+
+      if (state.catalogExpanded) {
+        grid.classList.remove("is-collapsed");
+        if (btnText) btnText.textContent = "Свернуть каталог";
+        if (btnIcon) btnIcon.textContent = "↑";
+        if (hint) hint.textContent = `Показаны все ${total} ${plural(total, ["позиция", "позиции", "позиций"])}`;
+      } else {
+        grid.classList.add("is-collapsed");
+        const remaining = total - limit;
+        if (btnText) btnText.textContent = `Смотреть весь каталог (${total})`;
+        if (btnIcon) btnIcon.textContent = "↓";
+        if (hint) hint.textContent = `Показано ${limit} из ${total} ${plural(total, ["позиции", "позиций", "позиций"])} (ещё ${remaining})`;
+      }
+    }
+
+    function initCatalogToggle() {
+      const btn = byId("catalogToggleBtn");
+      if (!btn) return;
+      btn.addEventListener("click", () => {
+        state.catalogExpanded = !state.catalogExpanded;
+        updateCatalogVisibility();
+        if (!state.catalogExpanded) {
+          const cat = byId("catalog");
+          if (cat) cat.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+      window.addEventListener("resize", () => {
+        updateCatalogVisibility();
+      });
+    }
+
     function renderCatalog() {
       const grid = byId("productGrid");
       if (!grid || !PRODUCTS.length) return;
       const items = productsByFilters();
       byId("catalogCount").textContent = `${items.length} ${plural(items.length, ["товар", "товара", "товаров"])}`;
       grid.innerHTML = items.map(renderProductCard).join("");
+      updateCatalogVisibility();
     }
 
     function renderProductCard(p) {
@@ -947,9 +1012,11 @@
       initReviews();
       initForm();
       initCartEvents();
+      initCatalogToggle();
       await loadData();
       initFilters();
       initCart();
+      updateCatalogVisibility();
     }
 
     boot();
