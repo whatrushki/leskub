@@ -545,6 +545,7 @@
           if (SITE_DATA.reviews && SITE_DATA.reviews.length) {
             REVIEWS = SITE_DATA.reviews;
             renderReview();
+            startReviewAutoPlay();
           }
           if (SITE_DATA.products && SITE_DATA.products.length) {
             PRODUCTS = SITE_DATA.products.filter(p => p.isActive !== false);
@@ -855,16 +856,59 @@
       if (s) s.value = orderSummaryText();
     }
 
-    function initReviews() {
-      byId("prevReview")?.addEventListener("click", () => {
-        state.reviewIndex = (state.reviewIndex - 1 + REVIEWS.length) % REVIEWS.length;
-        renderReview();
-      });
-      byId("nextReview")?.addEventListener("click", () => {
+    let reviewTimer = null;
+
+    function startReviewAutoPlay() {
+      stopReviewAutoPlay();
+      if (!REVIEWS || REVIEWS.length <= 1) return;
+      reviewTimer = setInterval(() => {
         state.reviewIndex = (state.reviewIndex + 1) % REVIEWS.length;
         renderReview();
+      }, 4000);
+    }
+
+    function stopReviewAutoPlay() {
+      if (reviewTimer) {
+        clearInterval(reviewTimer);
+        reviewTimer = null;
+      }
+    }
+
+    function initReviews() {
+      const prev = byId("prevReview");
+      const next = byId("nextReview");
+      const carousel = document.querySelector(".review-carousel");
+
+      prev?.addEventListener("click", () => {
+        state.reviewIndex = (state.reviewIndex - 1 + REVIEWS.length) % REVIEWS.length;
+        renderReview();
+        startReviewAutoPlay();
       });
+      next?.addEventListener("click", () => {
+        state.reviewIndex = (state.reviewIndex + 1) % REVIEWS.length;
+        renderReview();
+        startReviewAutoPlay();
+      });
+
+      if (carousel) {
+        carousel.addEventListener("mouseenter", stopReviewAutoPlay);
+        carousel.addEventListener("mouseleave", startReviewAutoPlay);
+        carousel.addEventListener("touchstart", stopReviewAutoPlay, { passive: true });
+        carousel.addEventListener("touchend", () => {
+          setTimeout(startReviewAutoPlay, 2000);
+        }, { passive: true });
+      }
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          stopReviewAutoPlay();
+        } else {
+          startReviewAutoPlay();
+        }
+      });
+
       renderReview();
+      startReviewAutoPlay();
     }
 
     function renderReview() {
@@ -888,6 +932,7 @@
         b.addEventListener("click", () => {
           state.reviewIndex = Number(b.dataset.reviewIndex);
           renderReview();
+          startReviewAutoPlay();
         });
       });
     }
