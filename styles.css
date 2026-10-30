@@ -250,6 +250,21 @@ h3 { margin-bottom: 10px; font-size: 24px; line-height: 1.25; }
 }
 
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.hero-catalog-btn,
+.hero-actions .button-secondary {
+  background: #ffffff !important;
+  color: var(--text) !important;
+  border: 1px solid rgba(255, 255, 255, 0.9) !important;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+.hero-catalog-btn:hover,
+.hero-actions .button-secondary:hover {
+  background: #f7f5f0 !important;
+  color: var(--text) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+}
 .hero-hint {
   position: absolute;
   right: 24px;
@@ -1116,19 +1131,32 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 
 @media (max-width: 880px) {
   .site-header {
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    transform: none;
-    border-radius: 0;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-    padding: max(10px, env(safe-area-inset-top, 0px)) 16px 10px;
+    top: max(12px, env(safe-area-inset-top, 12px));
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: calc(100% - 24px);
+    max-width: 680px;
+    border-radius: 32px;
+    border: 1px solid var(--border);
+    padding: 6px 10px 6px 14px;
     grid-template-columns: 1fr auto;
-    box-shadow: 0 4px 16px var(--shadow);
+    box-shadow: 0 12px 36px var(--shadow);
+    background: var(--header);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+  }
+  .site-header .brand {
+    font-size: 20px;
+    gap: 8px;
+  }
+  .site-header .site-logo {
+    height: 32px !important;
+  }
+  .site-header .header-action {
+    padding: 7px 14px;
+    font-size: 13px;
+    min-height: 36px;
   }
   .main-nav { display: none; }
   .section-heading {
