@@ -295,10 +295,9 @@
 
             <div class="catalog-more-wrap" id="catalogMoreWrap">
               <button class="button button-secondary catalog-toggle-btn" type="button" id="catalogToggleBtn">
-                <span id="catalogToggleText">Смотреть весь каталог</span>
+                <span id="catalogToggleText">Показать весь каталог (34)</span>
                 <span class="catalog-toggle-icon" id="catalogToggleIcon" aria-hidden="true">↓</span>
               </button>
-              <p class="catalog-more-hint" id="catalogMoreHint">Показано 6 из 34 позиций</p>
             </div>
           </div>
         </div>
@@ -618,7 +617,7 @@
     }
 
     function getCatalogLimit() {
-      return window.innerWidth <= 880 ? 3 : 6;
+      return window.innerWidth <= 880 ? 3 : 4;
     }
 
     function updateCatalogVisibility() {
@@ -626,7 +625,6 @@
       const wrap = byId("catalogMoreWrap");
       const btnText = byId("catalogToggleText");
       const btnIcon = byId("catalogToggleIcon");
-      const hint = byId("catalogMoreHint");
       if (!grid || !wrap) return;
 
       const items = productsByFilters();
@@ -645,13 +643,10 @@
         grid.classList.remove("is-collapsed");
         if (btnText) btnText.textContent = "Свернуть каталог";
         if (btnIcon) btnIcon.textContent = "↑";
-        if (hint) hint.textContent = `Показаны все ${total} ${plural(total, ["позиция", "позиции", "позиций"])}`;
       } else {
         grid.classList.add("is-collapsed");
-        const remaining = total - limit;
-        if (btnText) btnText.textContent = `Смотреть весь каталог (${total})`;
+        if (btnText) btnText.textContent = `Показать весь каталог (${total})`;
         if (btnIcon) btnIcon.textContent = "↓";
-        if (hint) hint.textContent = `Показано ${limit} из ${total} ${plural(total, ["позиции", "позиций", "позиций"])} (ещё ${remaining})`;
       }
     }
 
